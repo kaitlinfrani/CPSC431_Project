@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   // Connect to the database
   $servername = "localhost";
   $username = "root";
@@ -23,7 +25,21 @@
 
   // Check if the confirm password matches the password
   if ($password !== $confirmPassword) {
-    die("Error: Passwords do not match");
+    $_SESSION['signup_result'] = 'error';
+    $_SESSION['signup_error_message'] = "Error: Passwords do not match";
+    header('Location: signup.php');
+    exit();
+  }
+
+  // Check if the email already exists in the database
+  $email_check_sql = "SELECT * FROM providers WHERE email = '$email' UNION SELECT * FROM clients WHERE email = '$email'";
+  $email_check_result = $conn->query($email_check_sql);
+
+  if ($email_check_result->num_rows > 0) {
+    $_SESSION['signup_result'] = 'error';
+    $_SESSION['signup_error_message'] = "Error: An account with this email already exists";
+    header('Location: signup.php');
+    exit();
   }
 
   // Insert the data into the appropriate table based on user type
@@ -43,9 +59,12 @@
   }
 
   if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    $_SESSION['signup_result'] = 'success';
+    header('Location: signup.php');
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    $_SESSION['signup_result'] = 'error';
+    $_SESSION['signup_error_message'] = "Error: " . $sql . "<br>" . $conn->error;
+    header('Location: signup.php');
   }
 
   // Close the database connection

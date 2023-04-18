@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Provider Homepage</title>
+  </head>
+  <style>
+    /* CSS for side menu */
+    .sidenav {
+      height: 100%;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #f5f5f5;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    
+    .sidenav a {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #818181;
+      display: block;
+    }
+    
+    .sidenav a:hover {
+      color: #f1f1f1;
+    }
+    
+    /* CSS for content area */
+    .main {
+      margin-left: 200px; /* Same as the width of the side menu */
+      padding: 20px;
+    }
+
+    .plus {
+        position:fixed;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <div class="plus">&#43; Add a provider</div>
+    <div class="sidenav">
+        <a href="#">Pending</a>
+        <a href="#">Denied</a>
+        <a href="#">Approved</a>
+    </div>
+
+    <div class="main">
+        <h1>Provider Homepage</h1>
+        <p>List of Providers for (Medical Office Name)</p>
+        <ul>
+            <li>Provider 1</li>
+            <li>Provider 2</li>
+        </ul>
+    </div>
+</body>
+</html>

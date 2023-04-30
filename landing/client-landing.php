@@ -15,7 +15,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 </head>
 
 <body>
-    <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
+    <h1>Welcome, <?php echo $_SESSION['office_name']; ?></h1>
     <!-- Add more content here -->
 </body>
 

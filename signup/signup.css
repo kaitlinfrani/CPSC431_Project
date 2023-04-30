@@ -103,3 +103,8 @@ button {
   width: 100%;
   margin: 20px auto;
 }
+
+.radio-option {
+  display: inline-flex;
+  justify-content: space-between;
+}

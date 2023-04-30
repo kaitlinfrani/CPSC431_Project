@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
 
     if (password_verify($password, $hashedPasswordFromDatabase)) {
         $_SESSION['logged_in'] = true;
-        $_SESSION['name'] = $row['name'];
+        $_SESSION['name'] = $row['office_name'];
         $_SESSION['user_type'] = 'office';
         header('Location: /project/landing/office-landing.php');
     } else {

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
-<?php include 'session_handler.php'; ?>
+<?php 
+    include 'create_database_and_tables.php';  // Include the script to create the database and tables
+    include 'session_handler.php'; 
+?>
 
 <head>
     <title>User Signup Page</title>
@@ -30,8 +33,20 @@
         <?php endif; ?>
 
         <form method="POST" action="insert-data.php">
-            <label for="Name">Name:</label>
-            <input type="text" id="Name" name="Name" required />
+            <div>
+                <p>Are you a medical office or a client?</p>
+                <div class="radio-option">
+                    <label><input type="radio" name="user-type" value="office" required
+                            onclick="showProviderFields()" />Medical Office</label>
+                    <label><input type="radio" name="user-type" value="client" required
+                            onclick="showClientFields()" />Client</label>
+                </div>
+
+
+            </div>
+
+            <label for="Name" id="name-label">Name:</label>
+            <input type="text" id="name-input" name="name" required />
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required />
@@ -42,16 +57,6 @@
             <label for="confirm-password">Confirm Password:</label>
             <input type="password" id="confirm-password" name="confirm-password" required />
 
-            <p>Are you a medical office or a client?</p>
-            <label><input type="radio" name="user-type" value="office" required onclick="showProviderFields()" />Medical
-                Office</label>
-            <label><input type="radio" name="user-type" value="client" required
-                    onclick="showClientFields()" />Client</label>
-
-            <div id="provider-fields">
-                <label for="office-name">Name of the office:</label>
-                <input type="text" id="office-name" name="office-name" required />
-            </div>
 
             <div id="client-fields">
                 <label for="occupation">Occupation:</label>

@@ -16,8 +16,6 @@
 
   // Get the form data
   $name = "";
-  $officeName = "";
-  $occupation = "";
   $email = $_POST['email'];
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirm-password'];
@@ -35,7 +33,7 @@
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
   // Check if the email already exists in the database
-  $email_check_sql = "SELECT * FROM offices WHERE email = '$email' UNION SELECT * FROM clients WHERE email = '$email'";
+  $email_check_sql = "SELECT email FROM offices WHERE email = '$email' UNION SELECT email FROM clients WHERE email = '$email'";
   $email_check_result = $conn->query($email_check_sql);
 
   if ($email_check_result->num_rows > 0) {
@@ -47,11 +45,10 @@
 
   // Insert the data into the appropriate table based on user type
   if ($userType === 'office') {
-    $name = $_POST['Name'];
-    $officeName = $_POST['office-name'];
-    $sql = "INSERT INTO offices (name, office_name, email, password) VALUES ('$name', '$officeName', '$email', '$hashedPassword')";
+    $name = $_POST['office-name'];
+    $sql = "INSERT INTO offices (office_name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
   } else if ($userType === 'client') {
-    $name = $_POST['Name'];
+    $name = $_POST['name'];
     $occupation = $_POST['occupation'];
     if($occupation === "Other") {
       $occupation = $_POST['custom-occupation'];

@@ -10,7 +10,7 @@
     <h1>Welcome to Our Service</h1>
     <div class="button-container">
         <a href="/project/login/login-client.php" class="button">Client Login</a>
-        <a href="/project/login/login-provider.php" class="button">Provider Login</a>
+        <a href="/project/login/login-office.php" class="button">Medical Office Login</a>
         <a href="/project/signup/signup.php" class="button">Signup</a>
     </div>
 </body>

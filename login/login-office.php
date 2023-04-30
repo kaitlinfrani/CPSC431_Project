@@ -9,8 +9,8 @@
 
 <body>
     <div class="login-container">
-        <h1>Provider Login</h1>
-        <form method="POST" action="login-check-provider.php">
+        <h1>Medical Office Login</h1>
+        <form method="POST" action="login-check-office.php">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required />
 

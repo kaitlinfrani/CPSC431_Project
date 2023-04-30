@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$stmt = $conn->prepare("SELECT * FROM providers WHERE email = ?");
+$stmt = $conn->prepare("SELECT * FROM offices WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 
@@ -28,15 +28,15 @@ if ($result->num_rows > 0) {
     if (password_verify($password, $hashedPasswordFromDatabase)) {
         $_SESSION['logged_in'] = true;
         $_SESSION['name'] = $row['name'];
-        $_SESSION['user_type'] = 'provider';
-        header('Location: /project/landing/provider-landing.php');
+        $_SESSION['user_type'] = 'office';
+        header('Location: /project/landing/office-landing.php');
     } else {
         $_SESSION['error_message'] = "Invalid password";
-        header('Location: login-provider.php');
+        header('Location: login-office.php');
     }
 } else {
     $_SESSION['error_message'] = "No account found with that email";
-    header('Location: login-provider.php');
+    header('Location: login-office.php');
 }
 
 $stmt->close();

@@ -42,9 +42,9 @@
             <label for="confirm-password">Confirm Password:</label>
             <input type="password" id="confirm-password" name="confirm-password" required />
 
-            <p>Are you a provider or a client?</p>
-            <label><input type="radio" name="user-type" value="provider" required
-                    onclick="showProviderFields()" />Provider</label>
+            <p>Are you a medical office or a client?</p>
+            <label><input type="radio" name="user-type" value="office" required onclick="showProviderFields()" />Medical
+                Office</label>
             <label><input type="radio" name="user-type" value="client" required
                     onclick="showClientFields()" />Client</label>
 

@@ -35,7 +35,7 @@
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
   // Check if the email already exists in the database
-  $email_check_sql = "SELECT * FROM providers WHERE email = '$email' UNION SELECT * FROM clients WHERE email = '$email'";
+  $email_check_sql = "SELECT * FROM offices WHERE email = '$email' UNION SELECT * FROM clients WHERE email = '$email'";
   $email_check_result = $conn->query($email_check_sql);
 
   if ($email_check_result->num_rows > 0) {
@@ -46,10 +46,10 @@
   }
 
   // Insert the data into the appropriate table based on user type
-  if ($userType === 'provider') {
+  if ($userType === 'office') {
     $name = $_POST['Name'];
     $officeName = $_POST['office-name'];
-    $sql = "INSERT INTO providers (name, office_name, email, password) VALUES ('$name', '$officeName', '$email', '$hashedPassword')";
+    $sql = "INSERT INTO offices (name, office_name, email, password) VALUES ('$name', '$officeName', '$email', '$hashedPassword')";
   } else if ($userType === 'client') {
     $name = $_POST['Name'];
     $occupation = $_POST['occupation'];

@@ -31,6 +31,9 @@
     exit();
   }
 
+  // Hash the password
+  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
   // Check if the email already exists in the database
   $email_check_sql = "SELECT * FROM providers WHERE email = '$email' UNION SELECT * FROM clients WHERE email = '$email'";
   $email_check_result = $conn->query($email_check_sql);
@@ -46,14 +49,14 @@
   if ($userType === 'provider') {
     $name = $_POST['Name'];
     $officeName = $_POST['office-name'];
-    $sql = "INSERT INTO providers (name, office_name, email, password) VALUES ('$name', '$officeName', '$email', '$password')";
+    $sql = "INSERT INTO providers (name, office_name, email, password) VALUES ('$name', '$officeName', '$email', '$hashedPassword')";
   } else if ($userType === 'client') {
     $name = $_POST['Name'];
     $occupation = $_POST['occupation'];
     if($occupation === "Other") {
       $occupation = $_POST['custom-occupation'];
     }
-    $sql = "INSERT INTO clients (name, email, password, occupation) VALUES ('$name', '$email', '$password', '$occupation')";
+    $sql = "INSERT INTO clients (name, email, password, occupation) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
   } else {
     die("Error: Invalid user type");
   }

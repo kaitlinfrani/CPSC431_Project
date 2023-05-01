@@ -108,3 +108,15 @@ button {
   display: inline-flex;
   justify-content: space-between;
 }
+
+.login-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
+.login-buttons button {
+  width: 48%;
+  background-color: #007bff;
+  color: #fff;
+}

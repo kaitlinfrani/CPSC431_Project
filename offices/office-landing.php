@@ -15,12 +15,10 @@ $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-
 <body>
     <header>
     <!--Keep it as 'name' because when I printed out the $_SESSION array,

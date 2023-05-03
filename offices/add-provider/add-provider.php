@@ -16,7 +16,7 @@
 	<header>
 		<h1>Add Provider Form</h1>
 	</header>
-	<form method="post" action="process_add_provider.php">
+	<form method="post" action="add-provider-handler.php">
 		<label for="name">Name:</label>
 		<input type="text" id="name" name="name" required>
 

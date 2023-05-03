@@ -33,12 +33,6 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     <!-- Add more content here -->
     <main>
         <h2>List of Providers</h2>
-        <ul>
-            <!-- Loop through the list of providers and output them as list items -->
-            <?php foreach ($providers as $provider) : ?>
-                <li><?php echo $provider['provider_name']; ?></li>
-            <?php endforeach; ?>
-        </ul>
     </main>
 </body>
 

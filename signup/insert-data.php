@@ -56,7 +56,17 @@
     }
     $sql = "INSERT INTO clients (name, email, password, occupation) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
   } 
-  
+
+  else if ($userType === 'provider') {
+    $name = $_POST['name'];
+    $occupation = $_POST['occupation'];
+    $zipcode = $_POST['zipcode'];
+    $food_preference = $_POST['food_preference'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $sql = "INSERT INTO providers (id, name, availability, food_preference, occupation, zipcode) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
+  } 
+
   else {
     die("Error: Invalid user type");
   }

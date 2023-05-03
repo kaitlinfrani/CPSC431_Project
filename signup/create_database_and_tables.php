@@ -51,7 +51,8 @@ $sql = "CREATE TABLE IF NOT EXISTS providers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
-    availability VARCHAR(255) NOT NULL,
+    availability_date DATE NOT NULL,
+    availability_time TIME NOT NULL,
     food_preference VARCHAR(255) NOT NULL,
     occupation VARCHAR(255) NOT NULL,
     zipcode VARCHAR(10) NOT NULL

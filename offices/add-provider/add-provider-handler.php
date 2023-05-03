@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require_once 'db_connection.php';
+require_once 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $food_preference = $_POST['food_preference'];
     $availability = $_POST['date'] . ' ' . $_POST['time'];
 
-    $sql = "INSERT INTO providers (name, occupation, zipcode, food_preference, availability) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO providers (name, occupation, zipcode, food_preference, availability_date, availability_time) VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssss", $name, $occupation, $zipcode, $food_preference, $availability);

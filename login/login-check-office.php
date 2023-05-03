@@ -29,7 +29,7 @@ if ($result->num_rows > 0) {
         $_SESSION['logged_in'] = true;
         $_SESSION['name'] = $row['office_name'];
         $_SESSION['user_type'] = 'office';
-        header('Location: /project/landing/office-landing.php');
+        header('Location: /project/offices/office-landing.php');
     } else {
         $_SESSION['error_message'] = "Invalid password";
         header('Location: login-office.php');

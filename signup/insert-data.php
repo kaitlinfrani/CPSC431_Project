@@ -47,14 +47,17 @@
   if ($userType === 'office') {
     $name = $_POST['office-name'];
     $sql = "INSERT INTO offices (office_name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
-  } else if ($userType === 'client') {
+  } 
+  else if ($userType === 'client') {
     $name = $_POST['name'];
     $occupation = $_POST['occupation'];
     if($occupation === "Other") {
       $occupation = $_POST['custom-occupation'];
     }
     $sql = "INSERT INTO clients (name, email, password, occupation) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
-  } else {
+  } 
+  
+  else {
     die("Error: Invalid user type");
   }
 

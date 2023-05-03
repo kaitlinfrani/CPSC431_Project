@@ -20,6 +20,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     <!--Keep it as 'name' because when I printed out the $_SESSION array,
     it showed name not office_name bc it's set as name in signup.php-->
     <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
+    <button class="add-provider" onclick="location.href='../offices/add-provider/add-provider.php'" style="float:right;margin-top:20px;margin-right:20px;">Add Provider</button>
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
@@ -30,6 +31,15 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
         ?>
     </header>
     <!-- Add more content here -->
+    <main>
+        <h2>List of Providers</h2>
+        <ul>
+            <!-- Loop through the list of providers and output them as list items -->
+            <?php foreach ($providers as $provider) : ?>
+                <li><?php echo $provider['provider_name']; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </main>
 </body>
 
 </html>

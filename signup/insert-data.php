@@ -64,8 +64,8 @@
     $food_preference = $_POST['food_preference'];
     $date = $_POST['date'];
     $time = $_POST['time'];
-    $sql = "INSERT INTO providers (id, name, availability, food_preference, occupation, zipcode) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
-  } 
+    $sql = "INSERT INTO providers (first_name, occupation, zipcode, food_preference, availability_date, availability_time) 
+    VALUES ('$name', '$occupation', '$zipcode', '$food_preference', '$date', '$time')";  } 
 
   else {
     die("Error: Invalid user type");

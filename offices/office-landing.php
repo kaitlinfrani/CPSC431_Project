@@ -6,6 +6,12 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     exit();
     
 }
+require_once 'db_connection.php';
+
+// Prepare the SQL statement
+$sql = "SELECT * FROM providers";
+$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,6 +39,28 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     <!-- Add more content here -->
     <main>
         <h2>List of Providers</h2>
+        <div class="providers-container">
+            <?php
+      if ($result->num_rows > 0) {
+          // Output data of each row
+          while($row = $result->fetch_assoc()) {
+              echo "<div class='provider'>";
+              echo "<ul>";
+              echo "<li>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
+              echo "<li>Occupation: " . $row["occupation"]. "</li>";
+              echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
+              echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
+              echo "<li>Availability: " . $row["availability"]. "</li>";
+              echo "</ul>";
+              echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
+              echo "</div>";
+          }
+      } else {
+          echo "No providers found.";
+      }
+      
+      ?>
+        </div>
     </main>
 </body>
 

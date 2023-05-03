@@ -3,8 +3,8 @@ session_start();
 require_once 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['first_name'];
-    $name = $_POST['last_name'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     $occupation = $_POST['occupation'];
     $zipcode = $_POST['zipcode'];
     $food_preference = $_POST['food_preference'];
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO providers (first_name, last_name, occupation, zipcode, food_preference, availability_date, availability_time) VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $name, $occupation, $zipcode, $food_preference, $availability_date, $availability_time);
+    $stmt->bind_param("s", $first_name, $last_name, $occupation, $zipcode, $food_preference, $availability_date, $availability_time);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Provider added successfully!";

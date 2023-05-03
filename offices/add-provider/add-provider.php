@@ -17,8 +17,11 @@
 		<h1>Add Provider Form</h1>
 	</header>
 	<form method="post" action="add-provider-handler.php">
-		<label for="name">Name:</label>
-		<input type="text" id="name" name="name" required>
+		<label for="name">First Name:</label>
+		<input type="text" id="first_name" name="name" required>
+
+		<label for="name">Last Name:</label>
+		<input type="text" id="last_name" name="name" required>
 
 		<label for="occupation">Occupation:</label>
 		<input type="text" id="occupation" name="occupation" required>

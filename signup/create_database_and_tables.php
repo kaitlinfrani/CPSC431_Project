@@ -43,6 +43,10 @@ $sql = "CREATE TABLE IF NOT EXISTS clients (
     occupation VARCHAR(255)
 )";
 
+if ($conn->query($sql) === FALSE) {
+    die("Error creating table clients: " . $conn->error);
+}
+
 $sql = "CREATE TABLE IF NOT EXISTS providers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
@@ -53,10 +57,8 @@ $sql = "CREATE TABLE IF NOT EXISTS providers (
     zipcode VARCHAR(10) NOT NULL
 )";
 
-
-
 if ($conn->query($sql) === FALSE) {
-    die("Error creating table clients: " . $conn->error);
+    die("Error creating table providers: " . $conn->error);
 }
 
 // Close the database connection

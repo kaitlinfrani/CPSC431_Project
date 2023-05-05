@@ -1,18 +1,18 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #f8f9fa;
+  background-color: #f5f5f5;
 }
 
 header {
   width: 100%;
   padding: 20px 0;
   text-align: center;
-  background-color: #17a2b8;
+  background-color: #4a4a4a;
   color: white;
 }
 
@@ -23,83 +23,99 @@ header {
   justify-content: center;
   width: 100%;
   padding: 20px;
+  max-width: 800px;
 }
 
 .appointment-box,
-.message-form {
-  width: 600px; /* Fixed width */
-  margin: 1em auto;
+.appointment-form {
+  width: 100%;
+  margin: 1em 0;
   padding: 1em;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
   background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.message-form {
-  height: 300px; /* Fixed height */
-}
-
-.message-form form {
+.appointment-form form {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
 }
 
-.message-form textarea {
-  flex-grow: 1;
-  resize: vertical;
+.appointment-form label {
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+
+.appointment-form p {
+  font-size: 12px;
+  margin: 0.5em 0;
+}
+
+.appointment-form input,
+.appointment-form select {
+  margin-bottom: 1em;
+  padding: 0.25em;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.appointment-form textarea {
+  width: calc(100% - 3.25em); /* Adjusted width */
+  height: 200px;
   padding: 1em;
+  font-size: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-bottom: 1em;
+  resize: none;
 }
 
-.message-form button {
+.appointment-form button {
   padding: 0.5em 1em;
-  background-color: #17a2b8;
+  background-color: #4a4a4a;
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.message-form button:hover {
-  background-color: #138496;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.go-back,
-.send-message {
-  width: 100%; /* Adjust the width to full width of the parent */
-  padding: 0.5em 1em;
-  margin: 0.5em 0; /* Add vertical margin */
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  transition: background-color 0.3s;
 }
-
-.message-form .go-back {
+.appointment-form #cancel_button {
+  padding: 0.5em 1em;
+  margin-top: 5px;
   background-color: #dc3545;
   color: #ffffff;
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.message-form .go-back:hover {
+.appointment-form #cancel_button:hover {
   background-color: #c82333;
 }
 
-.send-message {
-  background-color: #28a745;
-  color: #ffffff;
-  border: none;
-  cursor: pointer;
+.appointment-form button:hover {
+  background-color: #3c3c3c;
 }
 
-.send-message:hover {
-  background-color: #218838;
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.alert {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 15px;
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  border-radius: 4px;
+  transition: opacity 0.5s ease-out;
 }

@@ -22,6 +22,7 @@ $result = $conn->query($sql);
 <head>
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 
 <body>
@@ -60,23 +61,42 @@ $result = $conn->query($sql);
         <h2>Providers:</h2>
         <div class="providers-container">
             <?php
-      if ($result->num_rows > 0) {
-          // Output data of each row
-          while($row = $result->fetch_assoc()) {
-              echo "<div class='provider'>";
-              echo "<ul>";
-              echo "<li>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
-              echo "<li>Occupation: " . $row["occupation"]. "</li>";
-              echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
-              echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
-              echo "<li>Availability: " . $row["availability"]. "</li>";
-              echo "</ul>";
-              echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
-              echo "</div>";
-          }
-      } else {
-          echo "No providers found.";
-      }
+        if ($result->num_rows > 0) {
+            // Display the providers in a list
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='provider'>";
+                echo "<ul>";
+
+                echo "<li><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
+                echo "<li><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
+                echo "<li><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
+                echo "<li><i class='fas fa-utensils'></i> Food Preference: " . $row["food_preference"] . "</li>";
+
+                // Fetch availabilities for the current provider
+                $provider_id = $row["id"];
+                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
+                $availabilities_result = $conn->query($availabilities_sql);
+
+                echo "<li><i class='fas fa-clock'></i> Availability:";
+                if ($availabilities_result->num_rows > 0) {
+                    echo "<ul>";
+                    while ($availability = $availabilities_result->fetch_assoc()) {
+                        echo "<li>" . $availability["day_of_week"] . ": " . $availability["start_time"] . " - " . $availability["end_time"] . "</li>";
+                    }
+                    echo "</ul>";
+                } else {
+                    echo " No availability.";
+                }
+                echo "</li>";
+
+                echo "</ul>";
+                echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'><i class='fas fa-calendar-plus'></i> Schedule Appointment</button></a>";
+                echo "</div>";
+            }
+        } else {
+            echo "No providers found.";
+        }
+
       
       ?>
         </div>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 <html>
 <head>
     <title>Add Provider</title>
-    <link rel="stylesheet" type="text/css" href="../../style.css" />
+    <link rel="stylesheet" type="text/css" href="style1.css">
 </head>
 <body>
     <header>
@@ -70,6 +70,14 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
             </div>
             <button type="submit" class="btn">Add Provider</button>
         </form>
+        <?php
+        if (isset($_SESSION['success_message'])) {
+            echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
+
+            // Unset the success message so it doesn't keep showing up on refresh
+            unset($_SESSION['success_message']);
+        }
+        ?>
         <?php
         if (isset($_SESSION['error_message'])) {
             echo '<div class="alert error-message">' . $_SESSION['error_message'] . '</div>';

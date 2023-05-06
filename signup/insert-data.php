@@ -47,27 +47,14 @@
   if ($userType === 'office') {
     $name = $_POST['office-name'];
     $sql = "INSERT INTO offices (office_name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
-  } 
-  else if ($userType === 'client') {
+  } else if ($userType === 'client') {
     $name = $_POST['name'];
     $occupation = $_POST['occupation'];
     if($occupation === "Other") {
       $occupation = $_POST['custom-occupation'];
     }
     $sql = "INSERT INTO clients (name, email, password, occupation) VALUES ('$name', '$email', '$hashedPassword', '$occupation')";
-  } 
-
-  else if ($userType === 'provider') {
-    $name = $_POST['name'];
-    $occupation = $_POST['occupation'];
-    $zipcode = $_POST['zipcode'];
-    $food_preference = $_POST['food_preference'];
-    $date = $_POST['date'];
-    $time = $_POST['time'];
-    $sql = "INSERT INTO providers (first_name, occupation, zipcode, food_preference, availability_date, availability_time) 
-    VALUES ('$name', '$occupation', '$zipcode', '$food_preference', '$date', '$time')";  } 
-
-  else {
+  } else {
     die("Error: Invalid user type");
   }
 

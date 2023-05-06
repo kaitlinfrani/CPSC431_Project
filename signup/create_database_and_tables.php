@@ -49,18 +49,51 @@ if ($conn->query($sql) === FALSE) {
 
 $sql = "CREATE TABLE IF NOT EXISTS providers (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    medical_office_id INT NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
-    availability_date DATE NOT NULL,
-    availability_time TIME NOT NULL,
-    food_preference VARCHAR(255) NOT NULL,
     occupation VARCHAR(255) NOT NULL,
-    zipcode VARCHAR(10) NOT NULL
+    zipcode VARCHAR(10) NOT NULL,
+    food_preference VARCHAR(255) NOT NULL,
+    FOREIGN KEY (medical_office_id) REFERENCES offices(id)
 )";
 
 if ($conn->query($sql) === FALSE) {
     die("Error creating table providers: " . $conn->error);
 }
+
+// Attempt to create 'availabilities' table
+$sql = "CREATE TABLE IF NOT EXISTS availabilities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    provider_id INT NOT NULL,
+    day_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    FOREIGN KEY (provider_id) REFERENCES providers(id)
+)";
+
+if ($conn->query($sql) === FALSE) {
+    die("Error creating providers availabilities: " . $conn->error);
+}
+$sql = "CREATE TABLE IF NOT EXISTS appointments_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    provider_id INT NOT NULL,
+    appointment_date DATE,
+    start_time TIME,
+    end_time TIME,
+    status ENUM('pending', 'accepted', 'rejected', 'cancelled') NOT NULL DEFAULT 'pending',
+    message TEXT,
+    FOREIGN KEY (client_id) REFERENCES clients(id),
+    FOREIGN KEY (provider_id) REFERENCES providers(id)
+)";
+
+if ($conn->query($sql) === FALSE) {
+    die("Error creating appointments: " . $conn->error);
+}
+
+
+
 
 // Close the database connection
 $conn->close();

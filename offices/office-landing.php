@@ -48,7 +48,6 @@ $result = $conn->query($sql);
               echo "<li>Occupation: " . $row["occupation"]. "</li>";
               echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
               echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
-              echo "<li>Availability: " . $row["availability"]. "</li>";
               echo "</ul>";
               echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
               echo "</div>";

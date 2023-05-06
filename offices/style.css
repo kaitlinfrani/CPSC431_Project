@@ -54,3 +54,18 @@ li {
 .add-provider:hover {
   background-color: #218838;
 }
+.provider {
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.provider-info {
+  flex: 1;
+}
+
+.provider-action {
+  display: flex;
+  align-items: center;
+}

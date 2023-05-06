@@ -36,7 +36,8 @@ $result = $conn->query($sql);
     </header>
     <main>
         <div class="providers-menu">
-            <button class="menu-btn">Pending</button>
+            <a href="../clients/pending/pending.php">Pending</a>
+            <button class="menu-btn" a href="../offices/appointment-action/pending.php" >Pending</button>
             <button class="menu-btn">Approved</button>
             <button class="menu-btn">Rejected</button>
         </div>

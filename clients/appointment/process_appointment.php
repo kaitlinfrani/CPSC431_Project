@@ -9,7 +9,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSIO
 }
 
 // Include your database connection file
-require_once 'db_connection.php';
+require_once '../shared/db_connection.php';
 
 // Check if form data is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $start_time = $_POST['start_time'];
     // Calculate end_time by adding 30 minutes to start_time
     $start_time_object = DateTime::createFromFormat('H:i', $start_time);
-    $start_time_object->add(new DateInterval('PT30M'));
+    $start_time_object->add(new DateInterval('PT60M'));
     $end_time = $start_time_object->format('H:i');
     $user_id = $_POST['user_id'];
     $provider_id = $_POST['provider_id'];

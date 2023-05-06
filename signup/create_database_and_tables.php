@@ -82,7 +82,7 @@ $sql = "CREATE TABLE IF NOT EXISTS appointments_messages (
     appointment_date DATE,
     start_time TIME,
     end_time TIME,
-    status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accepted', 'rejected', 'cancelled') NOT NULL DEFAULT 'pending',
     message TEXT,
     FOREIGN KEY (client_id) REFERENCES clients(id),
     FOREIGN KEY (provider_id) REFERENCES providers(id)

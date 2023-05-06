@@ -3,12 +3,12 @@
 session_start();
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSION['name'])) {
-    header('Location: index.html');
+    header('Location: ../../homepage/homepage.php');
     exit();
 }
 
 // Include your database connection file
-require_once 'db_connection.php';
+require_once '../shared/db_connection.php';
 
 // Fetch pending appointments
 $pending_appointments_sql = "SELECT appointments_messages.*, providers.first_name, providers.last_name, providers.occupation, providers.zipcode, providers.food_preference
@@ -39,6 +39,8 @@ while ($appointment = $pending_appointments_result->fetch_assoc()) {
     <header>
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
     </header>
+    <div id="message-container" style="display: none;"></div>
+
 
     <div class="main-content">
 

@@ -1,7 +1,7 @@
 <!-- edit-profile.php -->
 <?php
 session_start();
-require_once 'db_connection.php';
+require_once '../shared/db_connection.php';
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     header('Location: index.html');

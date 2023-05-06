@@ -3,12 +3,12 @@
 session_start();
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: index.html');
+    header('Location: ../homepage/homepage.php');
     exit();
 }
 
 // Include your database connection file
-require_once 'db_connection.php';
+require_once './shared/db_connection.php';
 
 // Prepare the SQL statement
 $sql = "SELECT * FROM providers";
@@ -40,9 +40,9 @@ $result = $conn->query($sql);
         ?>
     </header>
     <div class="sidebar">
-        <a href="..//clients/pending/pending.php">Pending</a>
+        <a href="../clients/pending/pending.php">Pending</a>
         <a href="../clients/accepted/accepted.php">Accepted</a>
-        <a href="../clients/clients/rejected.php">Rejected</a>
+        <a href="../clients/rejected/rejected.php">Rejected</a>
     </div>
 
     <!-- Display the providers in a list -->
@@ -54,7 +54,9 @@ $result = $conn->query($sql);
                 <option value="location">Location</option>
                 <option value="occupation">Occupation</option>
                 <option value="availability">Availability</option>
+                <option value="food_preference">Food Preference</option>
             </select>
+
         </div>
 
         <!-- Display the providers in a list -->
@@ -64,24 +66,26 @@ $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             // Display the providers in a list
             while ($row = $result->fetch_assoc()) {
-                echo "<div class='provider'>";
+                echo "<div class='provider single-provider'>";
                 echo "<ul>";
 
                 echo "<li><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
-                echo "<li><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
-                echo "<li><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
-                echo "<li><i class='fas fa-utensils'></i> Food Preference: " . $row["food_preference"] . "</li>";
+                echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
+                echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
+                echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i> Food Preference: " . $row["food_preference"] . "</li>";
 
                 // Fetch availabilities for the current provider
                 $provider_id = $row["id"];
                 $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
                 $availabilities_result = $conn->query($availabilities_sql);
 
-                echo "<li><i class='fas fa-clock'></i> Availability:";
+                echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";
                 if ($availabilities_result->num_rows > 0) {
                     echo "<ul>";
                     while ($availability = $availabilities_result->fetch_assoc()) {
-                        echo "<li>" . $availability["day_of_week"] . ": " . $availability["start_time"] . " - " . $availability["end_time"] . "</li>";
+                        $start_time = date("g:i A", strtotime($availability["start_time"]));
+                        $end_time = date("g:i A", strtotime($availability["end_time"]));
+                        echo "<li>" . $availability["day_of_week"] . ": " . $start_time . " - " . $end_time . "</li>";
                     }
                     echo "</ul>";
                 } else {
@@ -103,6 +107,7 @@ $result = $conn->query($sql);
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="alert.js"></script>
+    <script src="filter.js"></script>
 
 </body>
 

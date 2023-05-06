@@ -9,29 +9,15 @@ function openEditMessageModal(modalId, appointmentId, currentMessage) {
   };
 
   var saveChangesButton = modal.getElementsByClassName("save-changes")[0];
-  saveChangesButton.onclick = saveChanges;
+  saveChangesButton.onclick = function () {
+    saveChanges(appointmentId); // Pass the appointmentId to saveChanges
+  };
 
   var textarea = modal.getElementsByTagName("textarea")[0];
   textarea.value = currentMessage;
 }
 
-function openCancelAppointmentModal(modalId, appointmentId) {
-  var modal = document.getElementById(modalId);
-  modal.style.display = "block";
-  modal.dataset.appointmentId = appointmentId;
-
-  var closeButton = modal.getElementsByClassName("close")[0];
-  closeButton.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  var confirmCancelButton = modal.getElementsByClassName("confirm-cancel")[0];
-  confirmCancelButton.onclick = cancelAppointment;
-}
-
-function saveChanges() {
-  const appointmentId =
-    document.getElementById("editMessageModal").dataset.appointmentId;
+function saveChanges(appointmentId) {
   const newMessage = document.querySelector("#editMessageModal textarea").value;
 
   fetch("update_message.php", {
@@ -46,28 +32,56 @@ function saveChanges() {
     .then((response) => response.text())
     .then((result) => {
       console.log(result);
-      location.reload();
+      if (result === "Message updated successfully") {
+        // Reload the page and add the "edited=true" query parameter
+        window.location.href = window.location.pathname + "?edited=true";
+      } else {
+        showTemporaryMessage("Error editing message.", 3000);
+      }
     })
     .catch((error) => console.error("Error:", error));
 }
 
-function cancelAppointment() {
-  const appointmentId = document.getElementById("cancelAppointmentModal")
-    .dataset.appointmentId;
+function openCancelAppointmentModal(modalId, appointmentId) {
+  var modal = document.getElementById(modalId);
+  modal.style.display = "block";
+  modal.dataset.appointmentId = appointmentId;
 
-  fetch("cancel_appointment.php", {
+  var closeButton = modal.getElementsByClassName("close")[0];
+  closeButton.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  var confirmCancelButton = modal.querySelector(".confirm-cancel");
+  confirmCancelButton.onclick = cancelAppointment;
+}
+
+function cancelAppointment() {
+  const modal = document.getElementById("cancelAppointmentModal");
+
+  fetch("../shared/cancel_appointment.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `appointment_id=${appointmentId}`,
+    body: `appointment_id=${modal.dataset.appointmentId}`,
   })
     .then((response) => response.text())
     .then((result) => {
       console.log(result);
-      location.reload();
+      window.location.href = window.location.pathname + "?cancelled=true"; // Redirect with the query parameter
     })
     .catch((error) => console.error("Error:", error));
+}
+
+function showTemporaryMessage(message, duration) {
+  const messageContainer = document.getElementById("message-container");
+  messageContainer.innerHTML = message;
+  messageContainer.style.display = "block";
+
+  setTimeout(() => {
+    messageContainer.style.display = "none";
+  }, duration);
 }
 
 window.onclick = function (event) {
@@ -80,6 +94,28 @@ window.onclick = function (event) {
   }
 };
 
-function goBackToProfile() {
-  window.location.href = "client_landing.php";
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cancelled = urlParams.get("cancelled");
+
+  if (cancelled === "true") {
+    showTemporaryMessage("Appointment cancelled successfully.", 3000);
+    setTimeout(() => {
+      // Remove the query parameter from the URL
+      history.replaceState(null, "", window.location.pathname);
+    }, 3000);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const edited = urlParams.get("edited");
+
+  if (edited === "true") {
+    showTemporaryMessage("Successfully edited message.", 3000);
+    setTimeout(() => {
+      // Remove the query parameter from the URL
+      history.replaceState(null, "", window.location.pathname);
+    }, 3000);
+  }
+});

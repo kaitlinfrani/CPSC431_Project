@@ -168,14 +168,6 @@ p {
   }
 }
 
-/* Add these styles to your existing CSS */
-.modal textarea {
-  width: 100%; /* Set the width of the textarea to 100% of its container */
-  max-width: 100%; /* Prevent the textarea from growing beyond its container's width */
-  min-height: 200px; /* Set a minimum height for the textarea */
-  resize: none; /* Prevent the textarea from being resizable */
-}
-
 #message-container {
   position: fixed;
   top: 20px;

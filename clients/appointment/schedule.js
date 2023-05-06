@@ -39,6 +39,15 @@ function isTimeSlotScheduled(date, startTime) {
   return false;
 }
 
+// Helper function to convert 24-hour time format to 12-hour format with AM/PM
+function format12HourTime(time) {
+  return new Date("1970-01-01T" + time + "Z").toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
+}
+
 function generateTimeOptions() {
   const startSelect = document.getElementById("start_time");
 
@@ -81,13 +90,14 @@ function generateTimeOptions() {
       while (startTimeMinutes + 60 <= endTimeMinutes) {
         const startTimeStr = minutesToTime(startTimeMinutes);
         const endTimeStr = minutesToTime(startTimeMinutes + 60);
+        const startTime12Hour = format12HourTime(startTimeStr);
 
         const startTimeOption = document.createElement("option");
         startTimeOption.value = startTimeStr;
-        startTimeOption.text = startTimeStr;
+        startTimeOption.text = startTime12Hour;
 
         if (isTimeSlotScheduled(appointmentDate, startTimeStr)) {
-          startTimeOption.text = startTimeStr + " (unavailable)";
+          startTimeOption.text = startTime12Hour + " (unavailable)";
           startTimeOption.disabled = true;
         }
 

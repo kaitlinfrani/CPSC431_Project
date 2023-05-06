@@ -3,12 +3,12 @@
 session_start();
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSION['name'])) {
-    header('Location: index.html');
+    header('Location: ../../homepage/homepage.php');
     exit();
 }
 
 // Include your database connection file
-require_once 'db_connection.php';
+require_once '../shared/db_connection.php';
 
 // Get provider ID from URL
 $provider_id = $_GET['provider_id'];
@@ -75,12 +75,16 @@ while ($appointment = $accepted_appointments_result->fetch_assoc()) {
             <p>Availability:
             <ul>
                 <?php foreach ($availabilities as $availability): ?>
-                <li><?php echo $availability['day_of_week'] . ": " . $availability['start_time'] . " - " . $availability['end_time']; ?>
-                </li>
+                <?php
+            $start_time = date("g:i A", strtotime($availability["start_time"]));
+            $end_time = date("g:i A", strtotime($availability["end_time"]));
+        ?>
+                <li><?php echo $availability['day_of_week'] . ": " . $start_time . " - " . $end_time; ?></li>
                 <?php endforeach; ?>
             </ul>
             </p>
         </div>
+
 
         <div class="appointment-form">
             <h3>Schedule an Appointment</h3>

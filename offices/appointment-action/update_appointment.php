@@ -23,9 +23,8 @@ while ($appointment = $pending_appointments_result->fetch_assoc()) {
     $pending_appointments[] = $appointment;
 }
 
-
 // Handle accept appointment form submission
-/*if (isset($_POST['accept_appointment'])) {
+if (isset($_POST['accept_appointment'])) {
     $appointment_id = $_POST['appointment_id'];
     $update_appointment_sql = "UPDATE appointments_messages SET status = 'accepted' WHERE id = $appointment_id";
     if ($conn->query($update_appointment_sql) === TRUE) {
@@ -52,60 +51,5 @@ if (isset($_POST['reject_appointment'])) {
         header('Location: pending_appointments.php');
         exit();
     }
-}*/
+}
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style3.css">
-    <script src="scripts.js" defer></script>
-    <title>Pending Appointments</title>
-</head>
-
-<body>
-    <header>
-        <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
-    </header>
-    <div id="message-container" style="display: none;"></div>
-
-    <div class="main-content">
-        <div class="header-wrapper">
-            <a class="go-back" href="../office-landing.php">Go back to profile</a>
-            <div class="header-container">
-                <h2>Pending Appointments</h2>
-            </div>
-        </div>
-
-        <?php if (count($pending_appointments) > 0): ?>
-        <ul>
-            <?php foreach ($pending_appointments as $appointment): ?>
-            <?php
-            $appointment_id = $appointment['id'];
-            $current_message = htmlspecialchars($appointment['message'], ENT_QUOTES);
-            ?>
-            <li>
-                <h3>Appointment with <?php echo $appointment['first_name'] . ' ' . $appointment['last_name']; ?></h3>
-                <p>Occupation: <?php echo $appointment['occupation']; ?></p>
-                <p>Zipcode: <?php echo $appointment['zipcode']; ?></p>
-                <p>Food Preference: <?php echo $appointment['food_preference']; ?></p>
-                <p>Appointment Date: <?php echo $appointment['appointment_date']; ?></p>
-                <p>Start Time: <?php echo $appointment['start_time']; ?></p>
-                <p>End Time: <?php echo $appointment['end_time']; ?></p>
-                <p>Message: <?php echo $appointment['message']; ?></p>
-
-            </li>
-            <!--Shows all of the appointments-->
-            <?php endforeach; ?>
-        </ul>
-        <?php else: ?>
-        <p>No pending appointments.</p>
-        <?php endif; ?>
-
-        
-    </div>
-</body>
-</html>

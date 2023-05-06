@@ -109,12 +109,18 @@ body {
     background-color: #008CBA;
     color: white;
     border: none;
+    margin-right: 10px;
   }
 
   .reject-button {
     background-color: #f44336;
     color: white;
     border: none;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: row;
   }
   
   .edit-button:hover,

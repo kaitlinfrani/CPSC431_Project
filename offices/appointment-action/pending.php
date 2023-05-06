@@ -96,16 +96,29 @@ if (isset($_POST['reject_appointment'])) {
                 <p>Start Time: <?php echo $appointment['start_time']; ?></p>
                 <p>End Time: <?php echo $appointment['end_time']; ?></p>
                 <p>Message: <?php echo $appointment['message']; ?></p>
+                <div class="button-container">
+                    <form method="post" action="update_appointment.php">
+                        <input type="hidden" name="appointment_id" value="<?php echo $appointment_id; ?>">
+                        <input type="hidden" name="status" value="accepted">
+                        <button type="submit" name="submit" class="accept-button">Accept Appointment</button>
+                    </form>
+                    <form method="post" action="update_appointment.php">
+                        <input type="hidden" name="appointment_id" value="<?php echo $appointment_id; ?>">
+                        <input type="hidden" name="status" value="rejected">
+                        <button type="submit" name="submit" class="reject-button">Reject Appointment</button>
+                    </form>
+                </div>
 
             </li>
             <!--Shows all of the appointments-->
             <?php endforeach; ?>
+            
         </ul>
         <?php else: ?>
         <p>No pending appointments.</p>
         <?php endif; ?>
 
-        
+
     </div>
 </body>
 </html>

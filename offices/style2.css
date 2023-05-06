@@ -1,0 +1,104 @@
+.add-provider {
+    padding: 0.5em 1em;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Global styles */
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  header {
+    background-color: #0066cc;
+    color: white;
+    padding: 20px;
+  }
+  
+  main {
+    margin: 20px;
+    flex: 1;
+    display: flex;
+  }
+  
+  h1,
+  h2 {
+    margin: 0;
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  .alert {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+  }
+  
+  .add-provider:hover {
+    background-color: #218838;
+  }
+  
+  .provider {
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+  
+  .provider-info {
+    flex: 1;
+  }
+  
+  .provider-action {
+    display: flex;
+    align-items: center;
+  }
+  
+  .providers-menu {
+    width: 200px;
+    margin-right: 20px;
+  }
+  
+  .menu-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #ccc;
+    border: none;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .menu-btn:hover {
+    background-color: #ddd;
+  }
+  
+  .providers-container {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+  }
+  

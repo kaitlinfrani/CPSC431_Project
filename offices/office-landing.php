@@ -17,14 +17,14 @@ $result = $conn->query($sql);
 <html>
 <head>
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style2.css" />
 </head>
 <body>
     <header>
-    <!--Keep it as 'name' because when I printed out the $_SESSION array,
-    it showed name not office_name bc it's set as name in signup.php-->
-    <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
-    <button class="add-provider" onclick="location.href='../offices/add-provider/add-provider.php'" style="float:right;margin-top:20px;margin-right:20px;">Add Provider</button>
+        <!--Keep it as 'name' because when I printed out the $_SESSION array,
+        it showed name not office_name bc it's set as name in signup.php-->
+        <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
+        <button class="add-provider" onclick="location.href='../offices/add-provider/add-provider.php'" style="float:right;margin-top:20px;margin-right:20px;">Add Provider</button>
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
@@ -34,31 +34,32 @@ $result = $conn->query($sql);
         }
         ?>
     </header>
-    <!-- Add more content here -->
     <main>
-        <h2>List of Providers</h2>
+        <div class="providers-menu">
+            <button class="menu-btn">Pending</button>
+            <button class="menu-btn">Approved</button>
+            <button class="menu-btn">Rejected</button>
+        </div>
         <div class="providers-container">
             <?php
-      if ($result->num_rows > 0) {
-          // Output data of each row
-          while($row = $result->fetch_assoc()) {
-              echo "<div class='provider'>";
-              echo "<ul>";
-              echo "<li>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
-              echo "<li>Occupation: " . $row["occupation"]. "</li>";
-              echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
-              echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
-              echo "</ul>";
-              echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
-              echo "</div>";
-          }
-      } else {
-          echo "No providers found.";
-      }
-      
-      ?>
+            if ($result->num_rows > 0) {
+                // Output data of each row
+                while($row = $result->fetch_assoc()) {
+                    echo "<div class='provider'>";
+                    echo "<ul>";
+                    echo "<li>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
+                    echo "<li>Occupation: " . $row["occupation"]. "</li>";
+                    echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
+                    echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
+                    echo "</ul>";
+                    echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
+                    echo "</div>";
+                }
+            } else {
+                echo "No providers found.";
+            }
+            ?>
         </div>
     </main>
 </body>
-
 </html>

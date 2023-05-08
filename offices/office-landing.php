@@ -17,7 +17,8 @@ $result = $conn->query($sql);
 <html>
 <head>
     <title>Welcome</title>
-    <link rel="stylesheet" href="style2.css" />
+    <link rel="stylesheet" href="style2.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -48,12 +49,12 @@ $result = $conn->query($sql);
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='provider'>";
                     echo "<ul>";
-                    echo "<li>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
-                    echo "<li>Occupation: " . $row["occupation"]. "</li>";
-                    echo "<li>Zipcode: " . $row["zipcode"]. "</li>";
-                    echo "<li>Food Preference: " . $row["food_preference"]. "</li>";
+                    echo "<li><i class='fas fa-user'></i>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
+                    echo "<li><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
+                    echo "<li><i class='fas fa-map-marker-alt'></i>Zipcode: " . $row["zipcode"]. "</li>";
+                    echo "<li><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
                     echo "</ul>";
-                    echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'>Schedule Appointment</button></a>";
+                    echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'><i class='fas fa-calendar-plus'></i>Schedule Appointment</button></a>";
                     echo "</div>";
                 }
             } else {

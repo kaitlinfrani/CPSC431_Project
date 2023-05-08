@@ -25,6 +25,7 @@ $result = $conn->query($sql);
         it showed name not office_name bc it's set as name in signup.php-->
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
         <button class="add-provider" onclick="location.href='../offices/add-provider/add-provider.php'" style="float:right;margin-top:20px;margin-right:20px;">Add Provider</button>
+        <button class="homepage" onclick="location.href='../homepage/homepage.php'" style="float:left;margin-top:20px;margin-left:20px;">Home</button>
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';

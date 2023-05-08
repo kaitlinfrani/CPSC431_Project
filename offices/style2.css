@@ -6,7 +6,16 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+
+  .homepage {
+    padding: 0.5em 1em;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
   /* Global styles */
   body {
     font-family: Arial, sans-serif;

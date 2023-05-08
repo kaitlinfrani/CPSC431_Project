@@ -3,7 +3,14 @@
 
 <head>
     <title>Homepage</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <style>
+        body {
+            background-image: url("https://patientengagementhit.com/images/site/features/Getty_Images_Appointment_Schedule.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>

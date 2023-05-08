@@ -1,4 +1,5 @@
 <?php
+// Start the session
 session_start();
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSION['name'])) {
@@ -9,38 +10,23 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSIO
 // Include your database connection file
 require_once 'db_connection.php';
 
-// Get the appointment ID from the request parameter (assuming it was sent via GET or POST)
-$appointment_id = $_REQUEST['appointment_id'];
-
-// Update the status of the appointment in the database
-$conn = mysqli_connect('localhost', 'username', 'password', 'database_name');
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-$sql = "UPDATE appointments SET status='accepted' WHERE id=$appointment_id";
-if (mysqli_query($conn, $sql)) {
-    echo "Appointment status updated successfully";
-} else {
-    echo "Error updating appointment status: " . mysqli_error($conn);
-}
-
-mysqli_close($conn);
-
-
-// Handle accept appointment form submission
-/*
-if (isset($_POST['accept_appointment'])) {
+if (isset($_POST['appointment_id'])) {
     $appointment_id = $_POST['appointment_id'];
-    $update_appointment_sql = "UPDATE appointments_messages SET status = 'accepted' WHERE id = $appointment_id";
+
+    // Update the appointment status to accepted
+    $update_appointment_sql = "UPDATE appointments_messages SET status = 'accepted' WHERE id = '$appointment_id'";
     if ($conn->query($update_appointment_sql) === TRUE) {
-        $_SESSION['message'] = 'Appointment accepted successfully.';
-        header('Location: pending_appointments.php');
-        exit();
+        echo "Appointment accepted successfully";
     } else {
-        $_SESSION['error'] = 'Error accepting appointment: ' . $conn->error;
-        header('Location: pending_appointments.php');
-        exit();
+        echo "Error updating appointment: " . $conn->error;
     }
-}*/
+}
 ?>
+
+<!DOCTYPE html>
+<html>
+<form method="post" action="../office-landing.php">
+            <button type="submit" class="btn-back">Go Back</button>
+            </div>
+        </form>
+</html>

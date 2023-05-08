@@ -38,7 +38,9 @@ $result = $conn->query($sql);
         <div class="providers-menu">
             <a href="../offices/appointment-action/pending.php">Pending</a>
             <button class="menu-btn" a href="../offices/appointment-action/pending.php" >Pending</button>
+            <a href="../offices/appointment-action/view_accept.php">Approved</a>
             <button class="menu-btn">Approved</button>
+            <a href="../offices/appointment-action/view_reject.php">Rejected</a>
             <button class="menu-btn">Rejected</button>
         </div>
         <div class="providers-container">

@@ -15,6 +15,9 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 <body>
     <header>
         <h1>Add Provider</h1>
+        <form method="post" action="../office-landing.php">
+            <button type="submit" class="btn-back">Go Back</button>
+        </form>
     </header>
     <main>
         <form method="post" action="add-provider-handler.php">

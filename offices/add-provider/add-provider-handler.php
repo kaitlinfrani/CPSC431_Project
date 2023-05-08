@@ -24,9 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("sssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $medical_office_id);
 
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Provider added successfully!";
             $provider_id = $conn->insert_id;
-
+            $_SESSION['success_message'] = "Provider added successfully!";
             // Insert availability information
             $day_of_week = $_POST['day_of_week'];
             $start_time = $_POST['start_time'];

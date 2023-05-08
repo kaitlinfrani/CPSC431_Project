@@ -25,6 +25,10 @@ if (isset($_POST['appointment_id'])) {
 
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Accepted Appointments</title>
+    <link rel="stylesheet" type="text/css" href="view_accept.css"/>
+</head>
 <form method="post" action="../office-landing.php">
             <button type="submit" class="btn-back">Go Back</button>
             </div>

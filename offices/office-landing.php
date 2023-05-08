@@ -17,7 +17,7 @@ $result = $conn->query($sql);
 <html>
 <head>
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="style2.css" />
+    <link rel="stylesheet" href="style2.css" />
 </head>
 <body>
     <header>
@@ -36,12 +36,9 @@ $result = $conn->query($sql);
     </header>
     <main>
         <div class="providers-menu">
-            <a href="../offices/appointment-action/pending.php">Pending</a>
-            <button class="menu-btn" a href="../offices/appointment-action/pending.php" >Pending</button>
-            <a href="../offices/appointment-action/view_accept.php">Approved</a>
-            <button class="menu-btn">Approved</button>
-            <a href="../offices/appointment-action/view_reject.php">Rejected</a>
-            <button class="menu-btn">Rejected</button>
+            <a href="../offices/appointment-action/pending.php"><button class="menu-btn">Pending</button></a>
+            <a href="../offices/appointment-action/view_accept.php"><button class="menu-btn">Approved</button></a>
+            <a href="../offices/appointment-action/view_reject.php"><button class="menu-btn">Rejected</button></a>
         </div>
         <div class="providers-container">
             <?php

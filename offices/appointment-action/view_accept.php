@@ -30,7 +30,7 @@ while ($appointment = $accepted_appointments_result->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="view_accept.css">
     <script src="scripts.js" defer></script>
     <title>Accepted Appointments</title>
 </head>

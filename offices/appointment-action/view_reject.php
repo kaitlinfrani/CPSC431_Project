@@ -30,7 +30,7 @@ while ($appointment = $rejected_appointments_result->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="view_reject.css">
     <script src="scripts.js" defer></script>
     <title>Rejected Appointments</title>
 </head>
@@ -54,7 +54,7 @@ while ($appointment = $rejected_appointments_result->fetch_assoc()) {
     <div class="main-content">
 
         <div class="header-wrapper">
-            <a class="go-back" href="../client-landing.php">Go back to profile</a>
+            <a class="go-back" href="../office-landing.php">Go back to profile</a>
             <div class="header-container">
                 <h2>Rejected Appointments</h2>
             </div>

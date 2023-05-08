@@ -38,12 +38,12 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
                 <label>Food Preference:</label>
                 <input type="text" name="food_preference" required />
             </div>
-            <!--
+            
             <div class="input-group">
                 <label>Medical Office ID:</label>
                 <input type="text" name="medical_office_id" required />
             </div>
--->
+
             <div class="input-group">
                 <label>Availability:</label>
                 <div class="availability-inputs">

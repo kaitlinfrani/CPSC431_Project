@@ -2,12 +2,20 @@
 session_start();
 // to check array names: print_r($_SESSION);
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: index.html');
+    header('Location: ../../homepage/homepage.php');
     exit();
     
 }
 require_once 'db_connection.php';
 
+
+// Get the office ID of the currently logged-in user
+$office_id = $_SESSION['office_id'];
+
+// Prepare the SQL statement to retrieve providers for the current office
+/*$sql = "SELECT medical_office_id FROM providers WHERE office_id = $office_id";
+$result = $conn->query($sql);
+*/
 // Prepare the SQL statement
 $sql = "SELECT * FROM providers";
 $result = $conn->query($sql);
@@ -25,8 +33,8 @@ $result = $conn->query($sql);
         <!--Keep it as 'name' because when I printed out the $_SESSION array,
         it showed name not office_name bc it's set as name in signup.php-->
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
-        <button class="add-provider" onclick="location.href='../offices/add-provider/add-provider.php'" style="float:right;margin-top:20px;margin-right:20px;">Add Provider</button>
-        <button class="homepage" onclick="location.href='../homepage/homepage.php'" style="float:left;margin-top:20px;margin-left:20px;">Home</button>
+        <button class="homepage" onclick="location.href='../homepage/homepage.php'" style="float:left;margin-top:20px;margin-left:20px;">Log Out</button>
+        <a href="../offices/add-provider/add-provider.php?medical_office_id=<?php echo $office_id; ?>"><button class="add-provider">Add Provider</button></a>
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
@@ -42,26 +50,48 @@ $result = $conn->query($sql);
             <a href="../offices/appointment-action/view_accept.php"><button class="menu-btn">Approved</button></a>
             <a href="../offices/appointment-action/view_reject.php"><button class="menu-btn">Rejected</button></a>
         </div>
+
+        <!-- Occupation Filter -->
+
         <div class="providers-container">
             <?php
+            
             if ($result->num_rows > 0) {
                 // Output data of each row
+                $count = 0;
                 while($row = $result->fetch_assoc()) {
+                    if ($count % 3 == 0) {
+                        echo '<div class="row">';
+                    }
                     echo "<div class='provider'>";
                     echo "<ul>";
                     echo "<li><i class='fas fa-user'></i>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
                     echo "<li><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
                     echo "<li><i class='fas fa-map-marker-alt'></i>Zipcode: " . $row["zipcode"]. "</li>";
                     echo "<li><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
+                    echo "<a href='../offices/add-provider/edit-provider.php?id=" . $row['id'] . "'><button class='edit-provider'>Edit Provider</button></a>";
                     echo "</ul>";
-                    echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'><i class='fas fa-calendar-plus'></i>Schedule Appointment</button></a>";
                     echo "</div>";
+                    
+                    // Close the row every 3 providers
+                    if ($count % 3 == 2) {
+                        echo '</div>';
+                    }
+                    $count++;
                 }
-            } else {
+                
+                // Close the last row if it's not complete
+                if ($count % 3 != 0) {
+                    echo '</div>';
+                }
+            }
+            else {
                 echo "No providers found.";
             }
             ?>
         </div>
+
     </main>
+    <script src="filter.js"></script>
 </body>
 </html>

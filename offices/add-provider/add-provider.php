@@ -2,9 +2,12 @@
 session_start();
 require_once 'db_connection.php';
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: ../../index.html');
+    header('Location: ../../homepage/homepage.php');
     exit();
 }
+
+$office_id = $_GET['medical_office_id'];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +47,8 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
             
             <div class="input-group">
                 <label>Medical Office ID:</label>
-                <input type="text" name="medical_office_id" required />
+                <input type="text" name="medical_office_id" value="<?php echo $office_id; ?>">
+
             </div>
 
             <div class="input-group">
@@ -73,6 +77,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
                     </div>
                 </div>
             </div>
+            
             <button type="submit" class="btn">Add Provider</button>
         </form>
         <?php

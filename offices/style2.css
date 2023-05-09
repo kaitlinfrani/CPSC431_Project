@@ -1,4 +1,13 @@
-.add-provider {
+  .add-provider {
+    padding: 0.5em 1em;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .edit-provider {
     padding: 0.5em 1em;
     background-color: #28a745;
     color: #fff;
@@ -111,3 +120,65 @@
     flex-direction: column;
   }
   
+  .row {
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  
+  .provider-card {
+    display: inline-block;
+    width: 30%;
+    margin-right: 2%;
+    vertical-align: top;
+  }
+  
+  .provider:last-child .schedule-btn {
+    margin-bottom: 0;
+  }
+  
+  .clearfix {
+    clear: both;
+  }
+  
+  .providers-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.provider {
+    width: 30%;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.provider ul {
+    list-style: none;
+    padding: 0;
+}
+
+.provider li {
+    margin-bottom: 10px;
+}
+
+.provider i {
+    margin-right: 5px;
+}
+
+.schedule-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.schedule-btn:hover {
+    background-color: #3e8e41;
+}

@@ -8,15 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $occupation = $_POST['occupation'];
     $zipcode = $_POST['zipcode'];
     $food_preference = $_POST['food_preference'];
-
-    // Retrieve medical_office_id from the providers table
-    $sql = "SELECT medical_office_id FROM providers WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $_SESSION['provider_id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $medical_office_id = $row['medical_office_id'];
+    $medical_office_id = $_SESSION['medical_office_id']; // Get the office ID from session
 
     // Check if the medical_office_id value exists in the offices table
     $sql = "SELECT id FROM offices WHERE id = ?";
@@ -55,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error_message'] = "Invalid medical office ID";
     }
 
-    header('Location: add-provider.php');
+    header('Location: ../office-landing.php');
     exit();
 }
 ?>

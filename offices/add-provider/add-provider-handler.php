@@ -27,18 +27,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $provider_id = $conn->insert_id;
             $_SESSION['success_message'] = "Provider added successfully!";
             // Insert availability information
-            $day_of_week = $_POST['day_of_week'];
-            $start_time = $_POST['start_time'];
-            $end_time = $_POST['end_time'];
+            $days_of_week = $_POST['day_of_week'];
+            $start_times = $_POST['start_time'];
+            $end_times = $_POST['end_time'];
 
             $sql = "INSERT INTO availabilities (provider_id, day_of_week, start_time, end_time) VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("isss", $provider_id, $day_of_week, $start_time, $end_time);
 
-            if ($stmt->execute()) {
-                $_SESSION['success_message'] = "Provider availability added successfully!";
-            } else {
-                $_SESSION['error_message'] = "There was an error adding the provider's availability";
+            for ($i = 0; $i < count($days_of_week); $i++) {
+                $day_of_week = $days_of_week[$i];
+                $start_time = $start_times[$i];
+                $end_time = $end_times[$i];
+                $stmt->bind_param("isss", $provider_id, $day_of_week, $start_time, $end_time);
+                
+                if ($stmt->execute()) {
+                    $_SESSION['success_message'] = "Provider availability added successfully!";
+                } else {
+                    $_SESSION['error_message'] = "There was an error adding the provider's availability";
+                }
             }
         } else {
             $_SESSION['error_message'] = "There was an error adding the provider";
@@ -46,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $_SESSION['error_message'] = "Invalid medical office ID";
     }
-
+    
     header('Location: ../office-landing.php');
     exit();
 }

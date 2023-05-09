@@ -29,6 +29,8 @@ if ($result->num_rows > 0) {
         $_SESSION['logged_in'] = true;
         $_SESSION['name'] = $row['office_name'];
         $_SESSION['user_type'] = 'office';
+        $_SESSION['medical_office_id'] = $row['id'];
+
         header('Location: /project/offices/office-landing.php');
     } else {
         $_SESSION['error_message'] = "Invalid password";

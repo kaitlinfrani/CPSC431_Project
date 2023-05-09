@@ -8,13 +8,16 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
 $office_id = $_GET['medical_office_id'];
 
+
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Add Provider</title>
     <link rel="stylesheet" type="text/css" href="style1.css">
 </head>
+
 <body>
     <header>
         <h1>Add Provider</h1>
@@ -44,12 +47,8 @@ $office_id = $_GET['medical_office_id'];
                 <label>Food Preference:</label>
                 <input type="text" name="food_preference" required />
             </div>
-            
-            <div class="input-group">
-                <label>Medical Office ID:</label>
-                <input type="text" name="medical_office_id" value="<?php echo $office_id; ?>">
 
-            </div>
+            <!-- Medical Office ID input removed -->
 
             <div class="input-group">
                 <label>Availability:</label>
@@ -77,7 +76,7 @@ $office_id = $_GET['medical_office_id'];
                     </div>
                 </div>
             </div>
-            
+
             <button type="submit" class="btn">Add Provider</button>
         </form>
         <?php
@@ -98,4 +97,5 @@ $office_id = $_GET['medical_office_id'];
         ?>
     </main>
 </body>
+
 </html>

@@ -1,40 +1,37 @@
 <?php
 session_start();
-// to check array names: print_r($_SESSION);
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     header('Location: ../../homepage/homepage.php');
     exit();
-    
 }
+
 require_once 'db_connection.php';
 
-
-// Get the office ID of the currently logged-in user
-$office_id = $_SESSION['office_id'];
-
-// Prepare the SQL statement to retrieve providers for the current office
-/*$sql = "SELECT medical_office_id FROM providers WHERE office_id = $office_id";
-$result = $conn->query($sql);
-*/
 // Prepare the SQL statement
 $sql = "SELECT * FROM providers";
 $result = $conn->query($sql);
 
+
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Welcome</title>
-    <link rel="stylesheet" href="style2.css"/>
+    <link rel="stylesheet" href="style2.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
+
 <body>
     <header>
-        <!--Keep it as 'name' because when I printed out the $_SESSION array,
-        it showed name not office_name bc it's set as name in signup.php-->
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
-        <button class="homepage" onclick="location.href='../homepage/homepage.php'" style="float:left;margin-top:20px;margin-left:20px;">Log Out</button>
-        <a href="../offices/add-provider/add-provider.php?medical_office_id=<?php echo $office_id; ?>"><button class="add-provider">Add Provider</button></a>
+        <button class="homepage" onclick="location.href='../homepage/homepage.php'"
+            style="float:left;margin-top:20px;margin-left:20px;">Log Out</button>
+        <a
+            href="../offices/add-provider/add-provider.php?medical_office_id=<?php echo $_SESSION['medical_office_id']; ?>">
+            <button class="add-provider">Add Provider</button>
+        </a>
+
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
@@ -50,20 +47,6 @@ $result = $conn->query($sql);
             <a href="../offices/appointment-action/view_accept.php"><button class="menu-btn">Approved</button></a>
             <a href="../offices/appointment-action/view_reject.php"><button class="menu-btn">Rejected</button></a>
         </div>
-
-        <?php
-        $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
-        $filterValue = isset($_GET['value']) ? $_GET['value'] : '';
-
-        // Create a SQL query to filter the providers based on the filter and filter value
-        $sql = "SELECT * FROM providers";
-        if ($filter && $filterValue) {
-            $sql .= " WHERE {$filter} = '{$filterValue}'";
-        }
-
-        // Execute the query
-        $result = $conn->query($sql);
-        ?>
 
         <!-- Filter -->
         <div class="main-content">
@@ -114,4 +97,5 @@ $result = $conn->query($sql);
     </main>
     <script src="filter.js"></script>
 </body>
+
 </html>

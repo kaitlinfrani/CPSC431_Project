@@ -8,7 +8,8 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 require_once 'db_connection.php';
 
 // Prepare the SQL statement
-$sql = "SELECT * FROM providers";
+//$sql = "SELECT * FROM providers";
+$sql = "SELECT * FROM providers WHERE medical_office_id = " . $_SESSION['medical_office_id'];
 $result = $conn->query($sql);
 
 

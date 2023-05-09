@@ -14,7 +14,8 @@ require_once 'db_connection.php';
 $rejected_appointments_sql = "SELECT appointments_messages.*, providers.first_name, providers.last_name, providers.occupation, providers.zipcode, providers.food_preference
                               FROM appointments_messages
                               JOIN providers ON appointments_messages.provider_id = providers.id
-                              WHERE appointments_messages.status IN ('rejected', 'cancelled')";
+                              WHERE appointments_messages.status IN ('rejected', 'cancelled')
+                              AND providers.medical_office_id = '".$_SESSION['medical_office_id']."'";
 
 $rejected_appointments_result = $conn->query($rejected_appointments_sql);
 $rejected_appointments = [];

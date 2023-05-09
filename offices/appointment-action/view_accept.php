@@ -14,7 +14,8 @@ require_once 'db_connection.php';
 $accepted_appointments_sql = "SELECT appointments_messages.*, providers.first_name, providers.last_name, providers.occupation, providers.zipcode, providers.food_preference
                              FROM appointments_messages
                              JOIN providers ON appointments_messages.provider_id = providers.id
-                             WHERE appointments_messages.status = 'accepted'";
+                             WHERE appointments_messages.status = 'accepted'
+                             AND providers.medical_office_id = '".$_SESSION['medical_office_id']."'";
 
 $accepted_appointments_result = $conn->query($accepted_appointments_sql);
 $accepted_appointments = [];

@@ -8,6 +8,16 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
 $office_id = $_GET['medical_office_id'];
 
+$first_name = $_SESSION['form_data']['first_name'] ?? '';
+$last_name = $_SESSION['form_data']['last_name'] ?? '';
+$occupation = $_SESSION['form_data']['occupation'] ?? '';
+$zipcode = $_SESSION['form_data']['zipcode'] ?? '';
+$food_preference = $_SESSION['form_data']['food_preference'] ?? '';
+$day_of_week = $_SESSION['form_data']['day_of_week'] ?? [];
+$start_time = $_SESSION['form_data']['start_time'] ?? [];
+$end_time = $_SESSION['form_data']['end_time'] ?? [];
+
+unset($_SESSION['form_data']);
 
 ?>
 <!DOCTYPE html>
@@ -50,12 +60,11 @@ $office_id = $_GET['medical_office_id'];
 
             <!-- Medical Office ID input removed -->
 
-            <div class="input-group">
-                <label>Availability:</label>
+            <div id="availabilityFields">
                 <div class="availability-inputs">
                     <div class="availability-input">
                         <label>Day of Week:</label>
-                        <select name="day_of_week" required>
+                        <select name="day_of_week[]" required>
                             <option value="">Select a day</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -68,14 +77,15 @@ $office_id = $_GET['medical_office_id'];
                     </div>
                     <div class="availability-input">
                         <label>Start Time:</label>
-                        <input type="time" name="start_time" required />
+                        <input type="time" name="start_time[]" required />
                     </div>
                     <div class="availability-input">
                         <label>End Time:</label>
-                        <input type="time" name="end_time" required />
+                        <input type="time" name="end_time[]" required />
                     </div>
                 </div>
             </div>
+            <button type="button" onclick="addFields()">Add More Availability</button>
 
             <button type="submit" class="btn">Add Provider</button>
         </form>
@@ -96,6 +106,8 @@ $office_id = $_GET['medical_office_id'];
         }
         ?>
     </main>
+    <script src="add.js"></script>
+
 </body>
 
 </html>

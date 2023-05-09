@@ -55,7 +55,6 @@ $result = $conn->query($sql);
 
         <div class="providers-container">
             <?php
-            
             if ($result->num_rows > 0) {
                 // Output data of each row
                 $count = 0;
@@ -63,7 +62,8 @@ $result = $conn->query($sql);
                     if ($count % 3 == 0) {
                         echo '<div class="row">';
                     }
-                    echo "<div class='provider'>";
+                    
+                    echo "<div class='provider item'>";
                     echo "<ul>";
                     echo "<li><i class='fas fa-user'></i>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
                     echo "<li><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
@@ -72,14 +72,12 @@ $result = $conn->query($sql);
                     echo "<a href='../offices/add-provider/edit-provider.php?id=" . $row['id'] . "'><button class='edit-provider'>Edit Provider</button></a>";
                     echo "</ul>";
                     echo "</div>";
-                    
                     // Close the row every 3 providers
                     if ($count % 3 == 2) {
                         echo '</div>';
                     }
                     $count++;
                 }
-                
                 // Close the last row if it's not complete
                 if ($count % 3 != 0) {
                     echo '</div>';
@@ -89,7 +87,7 @@ $result = $conn->query($sql);
                 echo "No providers found.";
             }
             ?>
-        </div>
+            </div>
 
     </main>
     <script src="filter.js"></script>

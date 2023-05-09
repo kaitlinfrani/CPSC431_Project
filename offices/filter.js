@@ -1,29 +1,29 @@
-// Get the input field and select dropdown
-var searchBar = document.getElementById("searchBar");
-var filterDropdown = document.getElementById("filterDropdown");
+document.getElementById("searchBar").addEventListener("input", applyFilters);
+document.getElementById("filterDropdown").addEventListener("change", applyFilters);
 
-// Listen for changes in the input field and select dropdown
-searchBar.addEventListener("input", filterResults);
-filterDropdown.addEventListener("change", filterResults);
+function applyFilters() {
+  const filter = document.getElementById("searchBar").value.toLowerCase();
+  const filterType = document.getElementById("filterDropdown").value;
+  const providers = document.querySelectorAll(".single-provider");
 
-function filterResults() {
-  // Get the value of the input field and select dropdown
-  var searchString = searchBar.value.toLowerCase();
-  var filterOption = filterDropdown.value;
+  for (const provider of providers) {
+    const occupation = provider.querySelector(".provider-occupation").textContent.toLowerCase();
+    const zipcode = provider.querySelector(".provider-zipcode").textContent.toLowerCase();
+    const foodPreference = provider.querySelector(".provider-food_preference").textContent.toLowerCase();
 
-  // Get all providers
-  var providers = document.getElementsByClassName("provider");
+    let searchText;
+    if (filterType === "location") {
+      searchText = zipcode;
+    } else if (filterType === "occupation") {
+      searchText = occupation;
+    } else if (filterType === "food_preference") {
+      searchText = foodPreference;
+    } else {
+      searchText = provider.querySelector("li").textContent.toLowerCase();
+    }
 
-  // Loop through each provider
-  for (var i = 0; i < providers.length; i++) {
-    var provider = providers[i];
-    var occupation = provider.getElementsByClassName("occupation")[0];
-
-    // Check if occupation matches the filter option
-    if ((filterOption == "" || occupation.textContent.toLowerCase().indexOf(filterOption.toLowerCase()) > -1)
-      // Check if search string matches name, zipcode, or food preference
-      && (searchString == "" || provider.textContent.toLowerCase().indexOf(searchString) > -1)) {
-      provider.style.display = "";
+    if (searchText.indexOf(filter) > -1) {
+      provider.style.display = "block";
     } else {
       provider.style.display = "none";
     }

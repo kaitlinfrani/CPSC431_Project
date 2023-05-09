@@ -51,44 +51,66 @@ $result = $conn->query($sql);
             <a href="../offices/appointment-action/view_reject.php"><button class="menu-btn">Rejected</button></a>
         </div>
 
-        <!-- Occupation Filter -->
+        <?php
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+        $filterValue = isset($_GET['value']) ? $_GET['value'] : '';
 
+        // Create a SQL query to filter the providers based on the filter and filter value
+        $sql = "SELECT * FROM providers";
+        if ($filter && $filterValue) {
+            $sql .= " WHERE {$filter} = '{$filterValue}'";
+        }
+
+        // Execute the query
+        $result = $conn->query($sql);
+        ?>
+
+        <!-- Filter -->
+        <div class="main-content">
+            <div class="filter-search-bar">
+                <input type="text" id="searchBar" name="searchBar" placeholder="Search Providers...">
+                <select id="filterDropdown" name="filterDropdown">
+                    <option value="" selected>Filter By</option>
+                    <option value="location">Location</option>
+                    <option value="occupation">Occupation</option>
+                    <option value="food_preference">Food Preference</option>
+                </select>
+            </div>
+        </div>
         <div class="providers-container">
             <?php
-            if ($result->num_rows > 0) {
-                // Output data of each row
-                $count = 0;
-                while($row = $result->fetch_assoc()) {
-                    if ($count % 3 == 0) {
-                        echo '<div class="row">';
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    $count = 0;
+                    while($row = $result->fetch_assoc()) {
+                        if ($count % 3 == 0) {
+                            echo '<div class="row">';
+                        }
+                        echo "<div class='provider item single-provider'>";
+                        echo "<ul>";
+                        echo "<li><i class='fas fa-user'></i>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
+                        echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
+                        echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i>Zipcode: " . $row["zipcode"]. "</li>";
+                        echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
+                        echo "<a href='../offices/add-provider/edit-provider.php?id=" . $row['id'] . "'><button class='edit-provider'>Edit Provider</button></a>";
+                        echo "</ul>";
+                        echo "</div>";
+                        // Close the row every 3 providers
+                        if ($count % 3 == 2) {
+                            echo '</div>';
+                        }
+                        $count++;
                     }
-                    
-                    echo "<div class='provider item'>";
-                    echo "<ul>";
-                    echo "<li><i class='fas fa-user'></i>Name: " . $row["first_name"]. " " . $row["last_name"] . "</li>";
-                    echo "<li><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
-                    echo "<li><i class='fas fa-map-marker-alt'></i>Zipcode: " . $row["zipcode"]. "</li>";
-                    echo "<li><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
-                    echo "<a href='../offices/add-provider/edit-provider.php?id=" . $row['id'] . "'><button class='edit-provider'>Edit Provider</button></a>";
-                    echo "</ul>";
-                    echo "</div>";
-                    // Close the row every 3 providers
-                    if ($count % 3 == 2) {
+                    // Close the last row if it's not complete
+                    if ($count % 3 != 0) {
                         echo '</div>';
                     }
-                    $count++;
                 }
-                // Close the last row if it's not complete
-                if ($count % 3 != 0) {
-                    echo '</div>';
+                else {
+                    echo "No providers found.";
                 }
-            }
-            else {
-                echo "No providers found.";
-            }
             ?>
-            </div>
-
+        </div>
     </main>
     <script src="filter.js"></script>
 </body>

@@ -59,7 +59,7 @@ $row = $result->fetch_assoc();
 <html>
 <head>
     <title>Edit Provider</title>
-    <link rel="stylesheet" href="../style.css"/>
+    <link rel="stylesheet" href="edit.css"/>
 </head>
 <body>
     <header>

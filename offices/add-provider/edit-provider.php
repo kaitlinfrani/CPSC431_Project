@@ -15,16 +15,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $occupation = $_POST['occupation'];
     $zipcode = $_POST['zipcode'];
     $food_preference = $_POST['food_preference'];
+    $availability_day = $_POST['day_of_week'];
+    $availability_start = $_POST['start_time'];
+    $availability_end = $_POST['end_time'];
 
     // Update the provider information in the database
     $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $provider_id);
-    if ($stmt->execute()) {
+
+    // Update the provider's availability in the database
+    $availability_sql = "UPDATE availabilities SET day_of_week = ?, start_time = ?, end_time = ? WHERE provider_id = ?";
+    $availability_stmt = $conn->prepare($availability_sql);
+    $availability_stmt->bind_param("sssi", $availability_day, $availability_start, $availability_end, $provider_id);
+
+    if ($stmt->execute() && $availability_stmt->execute()) {
         $_SESSION['success_message'] = "Provider information updated successfully.";
     } else {
         $_SESSION['error_message'] = "Failed to update provider information.";
     }
+
 
     // Redirect back to the providers page
     header("Location: ../office-landing.php");
@@ -78,6 +88,41 @@ $row = $result->fetch_assoc();
             <input type="text" name="zipcode" value="<?php echo $row['zipcode']; ?>">
             <label for="food_preference">Food Preference:</label>
             <input type="text" name="food_preference" value="<?php echo $row['food_preference']; ?>">
+            <!-- beg of testing script to add availability edit-->
+            <h2>Edit Availability</h2>
+            <?php
+            // Prepare the SQL statement to retrieve the provider's availability
+            $availability_sql = "SELECT * FROM availabilities WHERE provider_id = ?";
+            $availability_stmt = $conn->prepare($availability_sql);
+            $availability_stmt->bind_param("i", $provider_id);
+            $availability_stmt->execute();
+            $availability_result = $availability_stmt->get_result();
+            // Check if the provider has any availability set
+            if ($availability_result->num_rows === 0) {
+                echo "<p>No availability set for this provider.</p>";
+            } else {
+                // Fetch the availability information
+                $availability_row = $availability_result->fetch_assoc();
+                ?>
+                <label for="start_time">Start Time:</label>
+                <input type="time" name="start_time" value="<?php echo $availability_row['start_time']; ?>">
+                <label for="end_time">End Time:</label>
+                <input type="time" name="end_time" value="<?php echo $availability_row['end_time']; ?>">
+                <label for="day_of_week">Day of Week:</label>
+                <select name="day_of_week">
+                    <?php
+                    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                    foreach ($days as $day) {
+                        $selected = ($day == $availability_row['day_of_week']) ? "selected" : "";
+                        echo "<option value='$day' $selected>$day</option>";
+                    }
+                    ?>
+                </select>
+            <?php
+            }
+            ?>
+
+            <!-- testing script end-->
             <input type="submit" value="Update Provider">
         </form>
     </main>

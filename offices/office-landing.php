@@ -8,7 +8,6 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 require_once 'db_connection.php';
 
 // Prepare the SQL statement
-//$sql = "SELECT * FROM providers";
 $sql = "SELECT * FROM providers WHERE medical_office_id = " . $_SESSION['medical_office_id'];
 $result = $conn->query($sql);
 
@@ -58,6 +57,7 @@ $result = $conn->query($sql);
                     <option value="location">Location</option>
                     <option value="occupation">Occupation</option>
                     <option value="food_preference">Food Preference</option>
+                    <option value="availability">Availability</option>
                 </select>
             </div>
         </div>
@@ -76,9 +76,26 @@ $result = $conn->query($sql);
                         echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i>Occupation: " . $row["occupation"]. "</li>";
                         echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i>Zipcode: " . $row["zipcode"]. "</li>";
                         echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
+                        $provider_id = $row["id"];
+                        $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
+                        $availabilities_result = $conn->query($availabilities_sql);
+        
+                        echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";
+                        if ($availabilities_result->num_rows > 0) {
+                            echo "<ul>";
+                            while ($availability = $availabilities_result->fetch_assoc()) {
+                                $start_time = date("g:i A", strtotime($availability["start_time"]));
+                                $end_time = date("g:i A", strtotime($availability["end_time"]));
+                                echo "<li>" . $availability["day_of_week"] . ": " . $start_time . " - " . $end_time . "</li>";
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo " No availability.";
+                        }
                         echo "<a href='../offices/add-provider/edit-provider.php?id=" . $row['id'] . "'><button class='edit-provider'>Edit Provider</button></a>";
                         echo "</ul>";
                         echo "</div>";
+                    
                         // Close the row every 3 providers
                         if ($count % 3 == 2) {
                             echo '</div>';

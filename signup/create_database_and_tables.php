@@ -55,6 +55,7 @@ $sql = "CREATE TABLE IF NOT EXISTS providers (
     occupation VARCHAR(255) NOT NULL,
     zipcode VARCHAR(10) NOT NULL,
     food_preference VARCHAR(255) NOT NULL,
+    active_inactive BOOLEAN NOT NULL DEFAULT 1,
     FOREIGN KEY (medical_office_id) REFERENCES offices(id)
 )";
 

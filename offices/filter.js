@@ -10,6 +10,7 @@ function applyFilters() {
     const occupation = provider.querySelector(".provider-occupation").textContent.toLowerCase();
     const zipcode = provider.querySelector(".provider-zipcode").textContent.toLowerCase();
     const foodPreference = provider.querySelector(".provider-food_preference").textContent.toLowerCase();
+    const availability = provider.querySelector(".provider-availability").textContent.toLocaleLowerCase();
 
     let searchText;
     if (filterType === "location") {
@@ -18,6 +19,8 @@ function applyFilters() {
       searchText = occupation;
     } else if (filterType === "food_preference") {
       searchText = foodPreference;
+    } else if (filterType === "availability") {
+      searchText = availability;
     } else {
       searchText = provider.querySelector("li").textContent.toLowerCase();
     }

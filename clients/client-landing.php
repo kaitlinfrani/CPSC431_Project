@@ -30,6 +30,9 @@ $result = $conn->query($sql);
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
         <button class="edit-profile" onclick="location.href='../clients/edit-profile/edit-profile.php'">Edit
             Profile</button>
+        <button class="homepage" onclick="location.href='../homepage/homepage.php'" 
+        style="float:left;margin-top:20px;margin-left:20px;">Log Out</button>
+        
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';

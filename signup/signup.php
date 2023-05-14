@@ -73,8 +73,7 @@
 
             <input type="submit" name="submit" value="Sign Up" />
             <div class="login-buttons">
-                <button onclick="location.href='/project/login/login-office.php'" type="button">Login
-                    Provider</button>
+                <button onclick="location.href='/project/login/login-office.php'" type="button">Login Medical Office</button>
                 <button onclick="location.href='/project/login/login-client.php'" type="button">Login Client</button>
             </div>
 

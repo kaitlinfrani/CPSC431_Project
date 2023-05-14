@@ -58,10 +58,9 @@ unset($_SESSION['form_data']);
                 <input type="text" name="food_preference" required />
             </div>
             <div class="input-group">
-                <label>Active or Inactive:</label>
+                <label>Active:</label>
                 <input type="checkbox" name="active_inactive" checked disabled />
             </div>
-
 
             <!-- Medical Office ID input removed -->
 

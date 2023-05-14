@@ -11,7 +11,8 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 require_once './shared/db_connection.php';
 
 // Prepare the SQL statement
-$sql = "SELECT * FROM providers";
+// Will only show availabilities of providers that are active, value = 1.
+$sql = "SELECT * FROM providers WHERE active_inactive = 1";
 $result = $conn->query($sql);
 
 ?>
@@ -79,7 +80,7 @@ $result = $conn->query($sql);
 
                 // Fetch availabilities for the current provider
                 $provider_id = $row["id"];
-                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
+                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id" ;
                 $availabilities_result = $conn->query($availabilities_sql);
 
                 echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";

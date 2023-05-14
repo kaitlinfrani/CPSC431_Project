@@ -18,11 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $availability_day = $_POST['day_of_week'];
     $availability_start = $_POST['start_time'];
     $availability_end = $_POST['end_time'];
+    $active_inactive = isset($_POST['inactive']) ? 0 : 1;
+
 
     // Update the provider information in the database
-    $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ? WHERE id = ?";
+    $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ?, active_inactive = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $provider_id);
+    $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
 
     // Update the provider's availability in the database
     $availability_sql = "UPDATE availabilities SET day_of_week = ?, start_time = ?, end_time = ? WHERE provider_id = ?";
@@ -88,6 +90,9 @@ $row = $result->fetch_assoc();
             <input type="text" name="zipcode" value="<?php echo $row['zipcode']; ?>">
             <label for="food_preference">Food Preference:</label>
             <input type="text" name="food_preference" value="<?php echo $row['food_preference']; ?>">
+            <label for="inactive">Inactive:</label>
+            <input type="checkbox" id="inactive" name="inactive" <?php echo ($row['active_inactive'] == 0) ? 'checked' : ''; ?>>
+            <?php $active_inactive = isset($_POST['inactive']) ? 0 : 1; ?>
             <!-- beg of testing script to add availability edit-->
             <h2>Edit Availability</h2>
             <?php

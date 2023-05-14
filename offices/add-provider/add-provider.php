@@ -16,7 +16,7 @@ $food_preference = $_SESSION['form_data']['food_preference'] ?? '';
 $day_of_week = $_SESSION['form_data']['day_of_week'] ?? [];
 $start_time = $_SESSION['form_data']['start_time'] ?? [];
 $end_time = $_SESSION['form_data']['end_time'] ?? [];
-
+$active_inactive = $_SESSION['form_data']['active_inactive'] ?? [];
 unset($_SESSION['form_data']);
 
 ?>
@@ -57,6 +57,11 @@ unset($_SESSION['form_data']);
                 <label>Food Preference:</label>
                 <input type="text" name="food_preference" required />
             </div>
+            <div class="input-group">
+                <label>Active or Inactive:</label>
+                <input type="checkbox" name="active_inactive" checked disabled />
+            </div>
+
 
             <!-- Medical Office ID input removed -->
 

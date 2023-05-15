@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
 
     // Update the provider's availability in the database
+    /*
     $availability_sql = "UPDATE availabilities SET day_of_week = ?, start_time = ?, end_time = ? WHERE provider_id = ?";
     $availability_stmt = $conn->prepare($availability_sql);
     $availability_stmt->bind_param("sssi", $availability_day, $availability_start, $availability_end, $provider_id);
@@ -35,7 +36,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['success_message'] = "Provider information updated successfully.";
     } else {
         $_SESSION['error_message'] = "Failed to update provider information.";
+    }*/
+    // Update the provider's availabilities in the database
+    if (isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['day_of_week'])) {
+        $start_times = $_POST['start_time'];
+        $end_times = $_POST['end_time'];
+        $days_of_week = $_POST['day_of_week'];
+
+        // Delete existing availabilities for the provider
+        $delete_sql = "DELETE FROM availabilities WHERE provider_id = ?";
+        $delete_stmt = $conn->prepare($delete_sql);
+        $delete_stmt->bind_param("i", $provider_id);
+        $delete_stmt->execute();
+
+        // Insert updated availabilities into the database
+        $insert_sql = "INSERT INTO availabilities (provider_id, start_time, end_time, day_of_week) VALUES (?, ?, ?, ?)";
+        $insert_stmt = $conn->prepare($insert_sql);
+        $insert_stmt->bind_param("isss", $provider_id, $start_time, $end_time, $day_of_week);
+
+        // Update each availability
+        for ($i = 0; $i < count($start_times); $i++) {
+            $start_time = $start_times[$i];
+            $end_time = $end_times[$i];
+            $day_of_week = $days_of_week[$i];
+
+            if (!$insert_stmt->execute()) {
+                $_SESSION['error_message'] = "Failed to update availabilities.";
+                break;
+            }
+        }
+
+        $_SESSION['success_message'] = "Availabilities updated successfully.";
     }
+
 
 
     // Redirect back to the providers page
@@ -96,34 +129,36 @@ $row = $result->fetch_assoc();
             <!-- beg of testing script to add availability edit-->
             <h2>Edit Availability</h2>
             <?php
-            // Prepare the SQL statement to retrieve the provider's availability
+            // Prepare the SQL statement to retrieve the provider's availabilities
             $availability_sql = "SELECT * FROM availabilities WHERE provider_id = ?";
             $availability_stmt = $conn->prepare($availability_sql);
             $availability_stmt->bind_param("i", $provider_id);
             $availability_stmt->execute();
             $availability_result = $availability_stmt->get_result();
+
             // Check if the provider has any availability set
             if ($availability_result->num_rows === 0) {
                 echo "<p>No availability set for this provider.</p>";
             } else {
-                // Fetch the availability information
-                $availability_row = $availability_result->fetch_assoc();
-                ?>
-                <label for="start_time">Start Time:</label>
-                <input type="time" name="start_time" value="<?php echo $availability_row['start_time']; ?>">
-                <label for="end_time">End Time:</label>
-                <input type="time" name="end_time" value="<?php echo $availability_row['end_time']; ?>">
-                <label for="day_of_week">Day of Week:</label>
-                <select name="day_of_week">
-                    <?php
-                    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                    foreach ($days as $day) {
-                        $selected = ($day == $availability_row['day_of_week']) ? "selected" : "";
-                        echo "<option value='$day' $selected>$day</option>";
-                    }
+                // Fetch and display all availabilities
+                while ($availability_row = $availability_result->fetch_assoc()) {
                     ?>
-                </select>
-            <?php
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" name="start_time[]" value="<?php echo htmlentities($availability_row['start_time']); ?>">
+                    <label for="end_time">End Time:</label>
+                    <input type="time" name="end_time[]" value="<?php echo htmlentities($availability_row['end_time']); ?>">
+                    <label for="day_of_week">Day of Week:</label>
+                    <select name="day_of_week[]">
+                        <?php
+                        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        foreach ($days as $day) {
+                            $selected = ($day == $availability_row['day_of_week']) ? "selected" : "";
+                            echo "<option value='$day' $selected>$day</option>";
+                        }
+                        ?>
+                    </select>
+                    <?php
+                }
             }
             ?>
 

@@ -20,23 +20,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $availability_end = $_POST['end_time'];
     $active_inactive = isset($_POST['inactive']) ? 0 : 1;
 
+    // Check for availability conflicts
+    if (isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['day_of_week'])) {
+        $startTimes = $_POST['start_time'];
+        $endTimes = $_POST['end_time'];
+        $daysOfWeek = $_POST['day_of_week'];
+
+        // Retrieve existing availabilities for the provider
+        $existingAvailabilities = array();
+        $availabilitySql = "SELECT * FROM availabilities WHERE provider_id = ?";
+        $availabilityStmt = $conn->prepare($availabilitySql);
+        $availabilityStmt->bind_param("i", $provider_id);
+        $availabilityStmt->execute();
+        $availabilityResult = $availabilityStmt->get_result();
+
+        while ($availabilityRow = $availabilityResult->fetch_assoc()) {
+            $existingAvailabilities[] = $availabilityRow;
+        }
+
+                /**
+         * Check for availability conflicts between new availabilities and existing ones.
+         *
+         * @param array $startTimes New availabilities start times
+         * @param array $endTimes New availabilities end times
+         * @param array $daysOfWeek New availabilities days of week
+         * @param array $existingAvailabilities Existing availabilities
+         * @return bool True if conflicts exist, False otherwise
+         */
+        function hasAvailabilityConflicts($startTimes, $endTimes, $daysOfWeek, $existingAvailabilities)
+        {
+            // Convert new availabilities into timestamp ranges
+            $newRanges = [];
+            foreach ($startTimes as $index => $startTime) {
+                $endTime = $endTimes[$index];
+                $dayOfWeek = $daysOfWeek[$index];
+
+                $startTimestamp = strtotime($dayOfWeek . ' ' . $startTime);
+                $endTimestamp = strtotime($dayOfWeek . ' ' . $endTime);
+                $newRanges[] = ['start' => $startTimestamp, 'end' => $endTimestamp];
+            }
+
+            // Check for conflicts with existing availabilities
+            foreach ($existingAvailabilities as $existingAvailability) {
+                $existingStart = strtotime($existingAvailability['day_of_week'] . ' ' . $existingAvailability['start_time']);
+                $existingEnd = strtotime($existingAvailability['day_of_week'] . ' ' . $existingAvailability['end_time']);
+
+                foreach ($newRanges as $newRange) {
+                    $newStart = $newRange['start'];
+                    $newEnd = $newRange['end'];
+
+                    if (($newStart >= $existingStart && $newStart < $existingEnd) || ($newEnd > $existingStart && $newEnd <= $existingEnd)) {
+                        return true; // Conflict found
+                    }
+                }
+            }
+
+            return false; // No conflicts
+        }
+
+        // Check for conflicts
+        if (hasAvailabilityConflicts($startTimes, $endTimes, $daysOfWeek, $existingAvailabilities)) {
+            echo "<script>window.location.href='../office-landing.php';alert('There is an availability conflict with another provider.');</script>";
+            //$_SESSION['error_message'] = "Availability conflicts found.";
+            //header("Location: ../office-landing.php");
+            exit();
+        }
+    }
 
     // Update the provider information in the database
     $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ?, active_inactive = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
 
-    // Update the provider's availability in the database
-    /*
-    $availability_sql = "UPDATE availabilities SET day_of_week = ?, start_time = ?, end_time = ? WHERE provider_id = ?";
-    $availability_stmt = $conn->prepare($availability_sql);
-    $availability_stmt->bind_param("sssi", $availability_day, $availability_start, $availability_end, $provider_id);
-
-    if ($stmt->execute() && $availability_stmt->execute()) {
-        $_SESSION['success_message'] = "Provider information updated successfully.";
-    } else {
-        $_SESSION['error_message'] = "Failed to update provider information.";
-    }*/
     // Update the provider's availabilities in the database
     if (isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['day_of_week'])) {
         $start_times = $_POST['start_time'];

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'];
 
     // Check if the appointment time is within the provider's availability
-    $sql = "SELECT * FROM availabilities WHERE provider_id = ? AND day_of_week = DAYNAME(?) AND TIME_TO_SEC(start_time) <= TIME_TO_SEC(?) AND TIME_TO_SEC(end_time) > TIME_TO_SEC(?)";
+    $sql = "SELECT * FROM availabilities WHERE provider_id = ? AND day_of_week = DAYNAME(?) AND TIME_TO_SEC(start_time) <= TIME_TO_SEC(?) AND TIME_TO_SEC(end_time) >= TIME_TO_SEC(?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('isss', $provider_id, $appointment_date, $start_time, $end_time);
     $stmt->execute();

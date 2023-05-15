@@ -69,12 +69,15 @@ while ($appointment = $pending_appointments_result->fetch_assoc()) {
                 <p>End Time: <?php echo $appointment['end_time']; ?></p>
                 <p>Message: <?php echo $appointment['message']; ?></p>
                 <div class="button-container">
-                    <button class="edit-button"
-                        onclick="openEditMessageModal('editMessageModal', '<?php echo $appointment_id; ?>', '<?php echo $current_message; ?>')">Edit
+                    <button class="edit-button" data-id="<?php echo htmlspecialchars($appointment_id); ?>"
+                        data-message="<?php echo htmlspecialchars($current_message); ?>"
+                        onclick="openEditMessageModal('editMessageModal', this.dataset.id, this.dataset.message)">Edit
                         Message</button>
-                    <button class="cancel-button"
-                        onclick="openCancelAppointmentModal('cancelAppointmentModal', '<?php echo $appointment_id; ?>')">Cancel
+
+                    <button class="cancel-button" data-id="<?php echo htmlspecialchars($appointment_id); ?>"
+                        onclick="openCancelAppointmentModal('cancelAppointmentModal', this.dataset.id)">Cancel
                         Appointment</button>
+
                 </div>
             </li>
 
@@ -86,22 +89,22 @@ while ($appointment = $pending_appointments_result->fetch_assoc()) {
         <!-- Edit Message Modal -->
         <div id="editMessageModal" class="modal">
             <div class="modal-content">
-                <span class="close">×</span>
                 <h2>Edit Message</h2>
                 <textarea></textarea>
-                <div class="button-container">
+                <div class="action-container">
                     <button class="save-changes">Save Changes</button>
+                    <button class="cancel-changes">Cancel</button>
                 </div>
             </div>
         </div>
         <!-- Cancel Appointment Modal -->
         <div id="cancelAppointmentModal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
                 <h2>Cancel Appointment</h2>
                 <p>Are you sure you want to cancel this appointment?</p>
-                <div class="button-container">
+                <div class="action-container">
                     <button class="confirm-cancel">Yes, Cancel Appointment</button>
+                    <button class="disregard-cancel">Disregard</button>
                 </div>
             </div>
         </div>

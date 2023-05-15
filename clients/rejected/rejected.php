@@ -41,7 +41,7 @@ while ($appointment = $rejected_appointments_result->fetch_assoc()) {
             <h2>Delete Appointment</h2>
             <p>Are you sure you want to delete this appointment?</p>
             <div class="modal-actions">
-                <button id="confirmDelete" class="delete-btn">Delete</button>
+                <button id="confirmDelete" class="confirm-btn">Delete</button>
                 <button id="cancelDelete" class="cancel-btn">Cancel</button>
             </div>
         </div>

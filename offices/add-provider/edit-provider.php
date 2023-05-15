@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $existingAvailabilities[] = $availabilityRow;
         }
 
-                /**
+        /**
          * Check for availability conflicts between new availabilities and existing ones.
          *
          * @param array $startTimes New availabilities start times
@@ -123,8 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['success_message'] = "Availabilities updated successfully.";
     }
-
-
 
     // Redirect back to the providers page
     header("Location: ../office-landing.php");

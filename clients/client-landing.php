@@ -11,7 +11,6 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 require_once './shared/db_connection.php';
 
 // Prepare the SQL statement
-// Will only show availabilities of providers that are active, value = 1.
 $sql = "SELECT * FROM providers WHERE active_inactive = 1";
 $result = $conn->query($sql);
 
@@ -29,11 +28,13 @@ $result = $conn->query($sql);
 <body>
     <header>
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
-        <button class="edit-profile" onclick="location.href='../clients/edit-profile/edit-profile.php'">Edit
-            Profile</button>
-        <button class="homepage" onclick="location.href='../homepage/homepage.php'" 
-        style="float:left;margin-top:20px;margin-left:20px;">Log Out</button>
-        
+        <div class="header-buttons">
+            <button class="edit-profile" onclick="location.href='../clients/edit-profile/edit-profile.php'">Edit
+                Profile</button>
+            <form action="logout.php" method="POST">
+                <input type="submit" value="Logout" />
+            </form>
+        </div>
         <?php
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
@@ -44,27 +45,29 @@ $result = $conn->query($sql);
         ?>
     </header>
     <div class="sidebar">
-        <a href="../clients/pending/pending.php">Pending</a>
-        <a href="../clients/accepted/accepted.php">Accepted</a>
-        <a href="../clients/rejected/rejected.php">Rejected</a>
+        <div class="sidebar-content">
+            <a href="../clients/pending/pending.php">Pending</a>
+            <a href="../clients/accepted/accepted.php">Accepted</a>
+            <a href="../clients/rejected/rejected.php">Rejected</a>
+        </div>
     </div>
+
 
     <!-- Display the providers in a list -->
     <div class="main-content">
         <div class="filter-search-bar">
-            <input type="text" id="searchBar" name="searchBar" placeholder="Search Providers...">
-            <select id="filterDropdown" name="filterDropdown">
-                <option value="" selected>Filter By</option>
-                <option value="location">Location</option>
-                <option value="occupation">Occupation</option>
-                <option value="availability">Availability</option>
-                <option value="food_preference">Food Preference</option>
-            </select>
-
+            <div class="search-container">
+                <input type="text" id="searchBar" name="searchBar"
+                    placeholder="Search and apply filters by pressing Enter...">
+                <button class="clear-all-filters" onclick="clearAllFilters()">Clear All Filters</button>
+            </div>
+            <div class="applied-filters"></div>
         </div>
 
         <!-- Display the providers in a list -->
-        <h2>Providers:</h2>
+        <div class="providers-header">
+            <h2>Providers</h2>
+        </div>
         <div class="providers-container">
             <?php
         if ($result->num_rows > 0) {
@@ -73,14 +76,14 @@ $result = $conn->query($sql);
                 echo "<div class='provider single-provider'>";
                 echo "<ul>";
 
-                echo "<li><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
+                echo "<li class='provider-name'><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
                 echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
                 echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
                 echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i> Food Preference: " . $row["food_preference"] . "</li>";
 
                 // Fetch availabilities for the current provider
                 $provider_id = $row["id"];
-                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id" ;
+                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
                 $availabilities_result = $conn->query($availabilities_sql);
 
                 echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";

@@ -79,11 +79,12 @@ while ($appointment = $accepted_appointments_result->fetch_assoc()) {
         <!-- Cancel Appointment Modal -->
         <div id="cancelAppointmentModal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
                 <h2>Cancel Appointment</h2>
                 <p>Are you sure you want to cancel this appointment?</p>
                 <div class="button-container">
                     <button class="confirm-cancel">Yes, Cancel Appointment</button>
+                    <button class="disregard-cancel">Disregard</button>
+
                 </div>
             </div>
         </div>

@@ -1,59 +1,66 @@
 function openEditMessageModal(modalId, appointmentId, currentMessage) {
-  var modal = document.getElementById(modalId);
+  const modal = document.getElementById(modalId);
+
+  if (!modal) {
+    console.error(`Could not find modal with ID: ${modalId}`);
+    return;
+  }
+
   modal.style.display = "block";
-  modal.dataset.appointmentId = appointmentId;
-
-  var closeButton = modal.getElementsByClassName("close")[0];
-  closeButton.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  var saveChangesButton = modal.getElementsByClassName("save-changes")[0];
-  saveChangesButton.onclick = function () {
-    saveChanges(appointmentId); // Pass the appointmentId to saveChanges
-  };
-
-  var textarea = modal.getElementsByTagName("textarea")[0];
+  const textarea = modal.querySelector("textarea");
   textarea.value = currentMessage;
+
+  const saveButton = modal.querySelector(".save-changes");
+  const cancelButton = modal.querySelector(".cancel-changes");
+
+  saveButton.onclick = function () {
+    const newMessage = textarea.value;
+    console.log(`Saving new message: ${newMessage}`);
+    updateMessage(appointmentId, newMessage);
+    closeModal(modalId);
+  };
+
+  cancelButton.onclick = function () {
+    closeModal(modalId);
+  };
 }
 
-function saveChanges(appointmentId) {
-  const newMessage = document.querySelector("#editMessageModal textarea").value;
+function updateMessage(appointmentId, newMessage) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "update_message.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  fetch("update_message.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `appointment_id=${appointmentId}&new_message=${encodeURIComponent(
-      newMessage
-    )}`,
-  })
-    .then((response) => response.text())
-    .then((result) => {
-      console.log(result);
-      if (result === "Message updated successfully") {
-        // Reload the page and add the "edited=true" query parameter
-        window.location.href = window.location.pathname + "?edited=true";
-      } else {
-        showTemporaryMessage("Error editing message.", 3000);
-      }
-    })
-    .catch((error) => console.error("Error:", error));
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      // Handle the response from the server
+      console.log(this.responseText);
+      window.location.href = window.location.pathname + "?edited=true"; // Redirect to the same page with 'edited=true' parameter
+    }
+  };
+
+  const data = `appointmentId=${appointmentId}&message=${encodeURIComponent(
+    newMessage
+  )}`;
+  xhr.send(data);
 }
 
 function openCancelAppointmentModal(modalId, appointmentId) {
-  var modal = document.getElementById(modalId);
+  const modal = document.getElementById(modalId);
   modal.style.display = "block";
   modal.dataset.appointmentId = appointmentId;
 
-  var closeButton = modal.getElementsByClassName("close")[0];
-  closeButton.onclick = function () {
-    modal.style.display = "none";
+  const confirmButton = modal.querySelector(".confirm-cancel");
+  const disregardButton = modal.querySelector(".disregard-cancel");
+
+  confirmButton.onclick = function () {
+    // Handle canceling the appointment
+    cancelAppointment();
+    closeModal(modalId);
   };
 
-  var confirmCancelButton = modal.querySelector(".confirm-cancel");
-  confirmCancelButton.onclick = cancelAppointment;
+  disregardButton.onclick = function () {
+    closeModal(modalId);
+  };
 }
 
 function cancelAppointment() {
@@ -74,6 +81,27 @@ function cancelAppointment() {
     .catch((error) => console.error("Error:", error));
 }
 
+function closeModal(modalId) {
+  console.log(`Closing modal: ${modalId}`);
+  const modal = document.getElementById(modalId);
+
+  if (!modal) {
+    console.error(`Could not find modal with ID: ${modalId}`);
+    return;
+  }
+
+  modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+  const modals = document.querySelectorAll(".modal");
+  modals.forEach((modal) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+};
+
 function showTemporaryMessage(message, duration) {
   const messageContainer = document.getElementById("message-container");
   messageContainer.innerHTML = message;
@@ -83,16 +111,6 @@ function showTemporaryMessage(message, duration) {
     messageContainer.style.display = "none";
   }, duration);
 }
-
-window.onclick = function (event) {
-  var modals = document.getElementsByClassName("modal");
-  for (var i = 0; i < modals.length; i++) {
-    var modal = modals[i];
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-};
 
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);

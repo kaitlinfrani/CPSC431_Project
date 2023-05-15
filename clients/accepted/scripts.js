@@ -3,9 +3,9 @@ function openCancelAppointmentModal(modalId, appointmentId) {
   modal.style.display = "block";
   modal.dataset.appointmentId = appointmentId; // Set the appointmentId as a data attribute
 
-  var closeButton = modal.getElementsByClassName("close")[0];
-  closeButton.onclick = function () {
-    modal.style.display = "none";
+  var disregardButton = modal.querySelector(".disregard-cancel");
+  disregardButton.onclick = function () {
+    modal.style.display = "none"; // close the modal
   };
 
   var confirmCancelButton = modal.getElementsByClassName("confirm-cancel")[0];
@@ -15,24 +15,21 @@ function openCancelAppointmentModal(modalId, appointmentId) {
 }
 
 function cancelAppointment() {
-  const appointmentId = document.getElementById("cancelAppointmentModal")
-    .dataset.appointmentId;
+  const modal = document.getElementById("cancelAppointmentModal");
 
   fetch("../shared/cancel_appointment.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `appointment_id=${appointmentId}`,
+    body: `appointment_id=${modal.dataset.appointmentId}`,
   })
     .then((response) => response.text())
     .then((result) => {
       console.log(result);
-      location.reload();
+      window.location.href = window.location.pathname + "?cancelled=true"; // Redirect with the query parameter
     })
     .catch((error) => console.error("Error:", error));
-
-  showTemporaryMessage("Appointment cancelled successfully.", 3000); // Show message for 3 seconds (3000ms)
 }
 
 function showTemporaryMessage(message, duration) {
@@ -45,6 +42,19 @@ function showTemporaryMessage(message, duration) {
   }, duration);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cancelled = urlParams.get("cancelled");
+
+  if (cancelled === "true") {
+    showTemporaryMessage("Appointment cancelled successfully.", 3000);
+    setTimeout(() => {
+      // Remove the query parameter from the URL
+      history.replaceState(null, "", window.location.pathname);
+    }, 3000);
+  }
+});
+
 window.onclick = function (event) {
   var modals = document.getElementsByClassName("modal");
   for (var i = 0; i < modals.length; i++) {
@@ -54,3 +64,16 @@ window.onclick = function (event) {
     }
   }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cancelled = urlParams.get("cancelled");
+
+  if (cancelled === "true") {
+    showTemporaryMessage("Appointment cancelled successfully.", 3000);
+    setTimeout(() => {
+      // Remove the query parameter from the URL
+      history.replaceState(null, "", window.location.pathname);
+    }, 3000);
+  }
+});

@@ -1,6 +1,14 @@
+:root {
+  --primary-color: #3c7d9a;
+  --secondary-color: #f0f0f0;
+  --accent-color: #e8f1f2;
+  --warning-color: #b22222;
+  --font: "Helvetica Neue", Arial, sans-serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  font-family: var(--font);
+  background-color: var(--secondary-color);
   margin: 0;
   padding: 0;
 }
@@ -8,20 +16,22 @@ body {
 .container {
   width: 50%;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 30px;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px #aaa;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 h1 {
   text-align: center;
   padding: 20px 0;
+  color: var(--primary-color);
 }
 
 label {
   display: block;
   margin-bottom: 5px;
+  color: var(--primary-color);
 }
 
 input,
@@ -30,11 +40,11 @@ select {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
 }
 
 input[type="submit"] {
-  background-color: #4caf50; /* Green */
+  background-color: var(--primary-color);
   border: none;
   color: white;
   padding: 15px 32px;
@@ -48,7 +58,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: var(--secondary-color);
 }
 
 .alert {
@@ -73,7 +83,7 @@ input[type="submit"]:hover {
   width: 200px;
   height: 50px;
   margin: 20px auto;
-  background-color: #3498db;
+  background-color: var(--primary-color);
   text-align: center;
   border-radius: 5px;
   color: white;
@@ -84,5 +94,5 @@ input[type="submit"]:hover {
 }
 
 .back-to-profile:hover {
-  background-color: #2980b9;
+  background-color: var(--secondary-color);
 }

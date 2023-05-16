@@ -155,12 +155,6 @@ p {
   background-color: white;
   color: black;
 }
-.header-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-}
 
 .disregard-cancel {
   background-color: #ccc;

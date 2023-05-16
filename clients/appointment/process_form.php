@@ -2,7 +2,7 @@
 session_start();
 
 // Include your database connection file
-require_once 'db_connection.php';
+require_once '../shared/db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get message and provider_id from POST data

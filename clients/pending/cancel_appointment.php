@@ -7,7 +7,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] || !isset($_SESSIO
 }
 
 if (isset($_POST['appointment_id'])) {
-    require_once 'db_connection.php';
+    require_once '../shared/db_connection.php';
 
     $appointment_id = $_POST['appointment_id'];
 

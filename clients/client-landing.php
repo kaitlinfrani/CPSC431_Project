@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 // Include your database connection file
 require_once './shared/db_connection.php';
 
-// Prepare the SQL statement
+// Prepare the SQL statement to fetch active providers
 $sql = "SELECT * FROM providers WHERE active_inactive = 1";
 $result = $conn->query($sql);
 
@@ -47,11 +47,10 @@ $result = $conn->query($sql);
     <div class="sidebar">
         <div class="sidebar-content">
             <a href="../clients/pending/pending.php">Pending</a>
-            <a href="../clients/accepted/accepted.php">Accepted</a>
+            <a href="../clients/accepted/accepted.php">Approved</a>
             <a href="../clients/rejected/rejected.php">Rejected</a>
         </div>
     </div>
-
 
     <!-- Display the providers in a list -->
     <div class="main-content">
@@ -66,56 +65,53 @@ $result = $conn->query($sql);
 
         <!-- Display the providers in a list -->
         <div class="providers-header">
-            <h2>Providers</h2>
+            <h2>Clients</h2>
         </div>
         <div class="providers-container">
             <?php
-        if ($result->num_rows > 0) {
-            // Display the providers in a list
-            while ($row = $result->fetch_assoc()) {
-                echo "<div class='provider single-provider'>";
-                echo "<ul>";
+                if ($result->num_rows > 0) {
+                    // Display the providers in a list
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<div class='provider single-provider'>";
+                        echo "<ul>";
 
-                echo "<li class='provider-name'><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
-                echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
-                echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
-                echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i> Food Preference: " . $row["food_preference"] . "</li>";
+                        echo "<li class='provider-name'><i class='fas fa-user'></i> Name: " . $row["first_name"] . " " . $row["last_name"] . "</li>";
+                        echo "<li class='provider-occupation'><i class='fas fa-briefcase'></i> Occupation: " . $row["occupation"] . "</li>";
+                        echo "<li class='provider-zipcode'><i class='fas fa-map-marker-alt'></i> Zipcode: " . $row["zipcode"] . "</li>";
+                        echo "<li class='provider-food_preference'><i class='fas fa-utensils'></i>Food Preference: " . $row["food_preference"]. "</li>";
 
-                // Fetch availabilities for the current provider
-                $provider_id = $row["id"];
-                $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
-                $availabilities_result = $conn->query($availabilities_sql);
+                        // Fetch availabilities for the current provider
+                        $provider_id = $row["id"];
+                        $availabilities_sql = "SELECT * FROM availabilities WHERE provider_id = $provider_id";
+                        $availabilities_result = $conn->query($availabilities_sql);
 
-                echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";
-                if ($availabilities_result->num_rows > 0) {
-                    echo "<ul>";
-                    while ($availability = $availabilities_result->fetch_assoc()) {
-                        $start_time = date("g:i A", strtotime($availability["start_time"]));
-                        $end_time = date("g:i A", strtotime($availability["end_time"]));
-                        echo "<li>" . $availability["day_of_week"] . ": " . $start_time . " - " . $end_time . "</li>";
+                        echo "<li class='provider-availability'><i class='fas fa-clock'></i> Availability: ";
+                        if ($availabilities_result->num_rows > 0) {
+                            echo "<ul>";
+                            while ($availability = $availabilities_result->fetch_assoc()) {
+                                $start_time = date("g:i A", strtotime($availability["start_time"]));
+                                $end_time = date("g:i A", strtotime($availability["end_time"]));
+                                echo "<li>" . $availability["day_of_week"] . ": " . $start_time . " - " . $end_time . "</li>";
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo " No availability.";
+                        }
+                        echo "</li>";
+
+                        echo "</ul>";
+                        echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'><i class='fas fa-calendar-plus'></i> Schedule Appointment</button></a>";
+                        echo "</div>";
                     }
-                    echo "</ul>";
                 } else {
-                    echo " No availability.";
+                    echo "No providers found.";
                 }
-                echo "</li>";
-
-                echo "</ul>";
-                echo "<a href='../clients/appointment/schedule.php?provider_id=" . $row["id"] . "'><button class='schedule-btn'><i class='fas fa-calendar-plus'></i> Schedule Appointment</button></a>";
-                echo "</div>";
-            }
-        } else {
-            echo "No providers found.";
-        }
-
-      
-      ?>
+            ?>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="alert.js"></script>
     <script src="filter.js"></script>
-
 </body>
 
 </html>

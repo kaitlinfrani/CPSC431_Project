@@ -132,6 +132,13 @@ p {
   pointer-events: auto;
 }
 
+.header-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
 .go-back {
   background-color: var(--primary-color);
   border: none;

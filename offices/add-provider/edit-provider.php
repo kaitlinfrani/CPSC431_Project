@@ -195,5 +195,5 @@ $row = $result->fetch_assoc();
     </main>
 </body>
 <!-- Go back -->
-<button class="back-to-profile" onclick="location.href='/project/clients/client-landing.php'">Back to Profile</button>
+<button class="back-to-profile" onclick="location.href='/project/offices/office-landing.php'">Back to Profile</button>
 </html>

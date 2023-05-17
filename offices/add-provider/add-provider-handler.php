@@ -44,8 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $conflict = true;
-              //  $_SESSION['error_message'] = "There is an availability conflict with another provider.";
-                $_SESSION['error_message'] = "Test.";
+                $_SESSION['error_message'] = "There is an availability conflict with another provider.";
                 unset($_SESSION['error_message']);
                 //break; // exit the loop if there is a conflict
             }
@@ -53,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($conflict) {
             // There is an availability conflict, do not add the provider
-            //$_SESSION['error_message'] = "There is an availability conflict with another provider.";
-            echo "<script>window.location.href='../office-landing.php';alert('There is an availability conflict with another provider.');</script>";
+            $_SESSION['error_message'] = "There is an availability conflict with another provider.";
+            header("Location: ../office-landing.php");
             exit();
         } else {
             // No availability conflicts, add the provider

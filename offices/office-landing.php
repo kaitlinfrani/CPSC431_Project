@@ -42,7 +42,14 @@ $result = $conn->query($sql);
                 // Unset the success message so it doesn't keep showing up on refresh
                 unset($_SESSION['success_message']);
             }
+            // Check if there is an error message
+            if (isset($_SESSION['error_message'])) {
+                echo '<div class="alert error-message">' . $_SESSION['error_message'] . '</div>';
+                // Clear the error message from the session
+                unset($_SESSION['error_message']);
+            }
             ?>
+            
     </header>
 
     <!-- Filter -->

@@ -11,7 +11,7 @@ if (isset($_POST['appointment_id'])) {
 
     $appointment_id = $_POST['appointment_id'];
 
-    $cancel_appointment_sql = "DELETE FROM appointments_messages WHERE id = ?";
+    $cancel_appointment_sql = "UPDATE appointments_messages SET status = 'cancelled' WHERE id = ?";
 
     if ($stmt = $conn->prepare($cancel_appointment_sql)) {
         $stmt->bind_param("i", $appointment_id);

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($deleteProviderStmt->execute()) {
                 $_SESSION['success_message'] = "Provider deleted successfully.";
                 // Redirect to a suitable page after deletion
-                header("Location: office-landing.php");
+                header("Location: ../office-landing.php");
                 exit();
             } else {
                 $_SESSION['error_message'] = "Failed to delete provider.";
@@ -184,8 +184,9 @@ $row = $result->fetch_assoc();
                 }
             }
             ?>
-
             <!-- End of edit availabiltiy-->
+
+            <!-- Update provider -->
             <input type="submit" name="update_provider" value="Update Provider">
 
             <!-- Delete provider -->
@@ -193,4 +194,6 @@ $row = $result->fetch_assoc();
         </form>
     </main>
 </body>
+<!-- Go back -->
+<button class="back-to-profile" onclick="location.href='/project/clients/client-landing.php'">Back to Profile</button>
 </html>

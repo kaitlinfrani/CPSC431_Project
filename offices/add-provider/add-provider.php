@@ -29,13 +29,9 @@ unset($_SESSION['form_data']);
 </head>
 
 <body>
-    <header>
-        <h1>Add Provider</h1>
-        <form method="post" action="../office-landing.php">
-            <button type="submit" class="btn-back">Go Back</button>
-        </form>
-    </header>
-    <main>
+    <h1>Add Provider</h1>
+    <div class="container">
+
         <form method="post" action="add-provider-handler.php">
             <div class="input-group">
                 <label>First Name:</label>
@@ -89,29 +85,18 @@ unset($_SESSION['form_data']);
                     </div>
                 </div>
             </div>
-            <button type="button" onclick="addFields()">Add More Availability</button>
-
-            <button type="submit" class="btn">Add Provider</button>
+            <div class="actions">
+                <button type="button" onclick="addFields()">Add More Availability</button>
+                <div class="provider-actions">
+                    <button type="submit" class="btn">Add Provider</button>
+                    <button class="back-to-profile" onclick="location.href='../office-landing.php'">Cancel</button>
+                </div>
+            </div>
         </form>
-        <?php
-        if (isset($_SESSION['success_message'])) {
-            echo '<div class="alert success-message">' . $_SESSION['success_message'] . '</div>';
 
-            // Unset the success message so it doesn't keep showing up on refresh
-            unset($_SESSION['success_message']);
-        }
-        ?>
-        <?php
-        if (isset($_SESSION['error_message'])) {
-            echo '<div class="alert error-message">' . $_SESSION['error_message'] . '</div>';
-
-            // Unset the error message so it doesn't keep showing up on refresh
-            unset($_SESSION['error_message']);
-        }
-        ?>
-    </main>
-    <script src="add.js"></script>
-
+        </main>
+        <script src="add.js"></script>
+    </div>
 </body>
 
 </html>

@@ -32,7 +32,7 @@ while ($appointment = $accepted_appointments_result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="view_accept.css">
-    <script src="scripts.js" defer></script>
+    <script src="cancel.js" defer></script>
     <title>Accepted Appointments</title>
 </head>
 
@@ -80,11 +80,12 @@ while ($appointment = $accepted_appointments_result->fetch_assoc()) {
         <!-- Cancel Appointment Modal -->
         <div id="cancelAppointmentModal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
                 <h2>Cancel Appointment</h2>
                 <p>Are you sure you want to cancel this appointment?</p>
                 <div class="button-container">
                     <button class="confirm-cancel">Yes, Cancel Appointment</button>
+                    <button class="disregard-cancel">Disregard</button>
+
                 </div>
             </div>
         </div>

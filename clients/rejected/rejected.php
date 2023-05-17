@@ -50,6 +50,8 @@ while ($appointment = $rejected_appointments_result->fetch_assoc()) {
     <header>
         <h1>Welcome, <?php echo $_SESSION['name']; ?></h1>
     </header>
+    <div id="message-container" style="display: none;"></div>
+
 
     <div class="main-content">
 

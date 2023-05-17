@@ -25,22 +25,9 @@ while ($appointment = $pending_appointments_result->fetch_assoc()) {
     $pending_appointments[] = $appointment;
 }
 
-
-// Fetch providers under the office ID
-$providers_sql = "SELECT * FROM providers WHERE medical_office_id = ?";
-$stmt = $conn->prepare($providers_sql);
-$stmt->bind_param("i", $_SESSION['medical_office_id']);
-$stmt->execute();
-$providers_result = $stmt->get_result();
-$providers = [];
-
-while ($provider = $providers_result->fetch_assoc()) {
-    $providers[] = $provider;
-}
-
-
 ?>
 
+<!-- Update the pending.php file -->
 <!DOCTYPE html>
 <html>
 
@@ -48,7 +35,7 @@ while ($provider = $providers_result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style3.css">
-    <script src="scripts.js" defer></script>
+    <script src="script.js" defer></script>
     <title>Pending Appointments</title>
 </head>
 
@@ -83,28 +70,31 @@ while ($provider = $providers_result->fetch_assoc()) {
                 <p>End Time: <?php echo $appointment['end_time']; ?></p>
                 <p>Message: <?php echo $appointment['message']; ?></p>
                 <div class="button-container">
-                    <form method="post" action="accept.php">
+                    <form method="post" action="update_appointment.php">
                         <input type="hidden" name="appointment_id" value="<?php echo $appointment_id; ?>">
                         <input type="hidden" name="status" value="accepted">
-                        <button type="submit" name="submit" class="accept-button">Accept Appointment</button>
+                        <button type="submit" name="accept_appointment" class="accept-button"
+                            onclick="acceptAppointment(event, <?php echo $appointment_id; ?>)">Accept
+                            Appointment</button>
                     </form>
-                    <form method="post" action="reject.php">
+
+                    <form method="post" action="update_appointment.php">
                         <input type="hidden" name="appointment_id" value="<?php echo $appointment_id; ?>">
                         <input type="hidden" name="status" value="rejected">
-                        <button type="submit" name="submit" class="reject-button">Reject Appointment</button>
+                        <button type="submit" name="reject_appointment" class="reject-button"
+                            onclick="rejectAppointment(event, <?php echo $appointment_id; ?>)">Reject
+                            Appointment</button>
+                    </form>
+
                     </form>
                 </div>
-
             </li>
-            <!--Shows all of the appointments-->
             <?php endforeach; ?>
-            
         </ul>
         <?php else: ?>
         <p>No pending appointments.</p>
         <?php endif; ?>
-
-
     </div>
 </body>
+
 </html>

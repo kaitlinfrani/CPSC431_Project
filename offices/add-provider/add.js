@@ -41,6 +41,16 @@ function addFields() {
   newDiv.appendChild(endTimeLabel);
   newDiv.appendChild(endTimeInput);
 
+  // Add remove button
+  var removeButton = document.createElement("button");
+  removeButton.textContent = "Remove";
+  removeButton.type = "button";
+  removeButton.className = "remove-button"; // new line
+  removeButton.onclick = function () {
+    this.parentNode.parentNode.removeChild(this.parentNode);
+  };
+  newDiv.appendChild(removeButton);
+
   // Append the new div to the parent div
   document.getElementById("availabilityFields").appendChild(newDiv);
 }

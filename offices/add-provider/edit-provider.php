@@ -92,6 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
 
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Provider information updated successfully.";
+    } else {
+        $_SESSION['error_message'] = "Failed to update provider information.";
+    }
+
     // Update the provider's availabilities in the database
     if (isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['day_of_week'])) {
         $start_times = $_POST['start_time'];
@@ -179,7 +185,7 @@ $row = $result->fetch_assoc();
             <label for="inactive">Inactive:</label>
             <input type="checkbox" id="inactive" name="inactive" <?php echo ($row['active_inactive'] == 0) ? 'checked' : ''; ?>>
             <?php $active_inactive = isset($_POST['inactive']) ? 0 : 1; ?>
-            <!-- beg of testing script to add availability edit-->
+            <!-- Edit availability script -->
             <h2>Edit Availability</h2>
             <?php
             // Prepare the SQL statement to retrieve the provider's availabilities
@@ -215,7 +221,10 @@ $row = $result->fetch_assoc();
             }
             ?>
 
-            <!-- testing script end-->
+            <!-- Delete provider -->
+            <input type="submit" value="Delete Provider">
+
+            <!-- End of edit availabiltiy-->
             <input type="submit" value="Update Provider">
         </form>
     </main>

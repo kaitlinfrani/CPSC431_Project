@@ -20,82 +20,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $availability_end = $_POST['end_time'];
     $active_inactive = isset($_POST['inactive']) ? 0 : 1;
 
-    // Check for availability conflicts
-    if (isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['day_of_week'])) {
-        $startTimes = $_POST['start_time'];
-        $endTimes = $_POST['end_time'];
-        $daysOfWeek = $_POST['day_of_week'];
+    // Check if the update button was clicked
+    if (isset($_POST['update_provider'])) {
+        // Update the provider information in the database
+        $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ?, active_inactive = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
 
-        // Retrieve existing availabilities for the provider
-        $existingAvailabilities = array();
-        $availabilitySql = "SELECT * FROM availabilities WHERE provider_id = ?";
-        $availabilityStmt = $conn->prepare($availabilitySql);
-        $availabilityStmt->bind_param("i", $provider_id);
-        $availabilityStmt->execute();
-        $availabilityResult = $availabilityStmt->get_result();
-
-        while ($availabilityRow = $availabilityResult->fetch_assoc()) {
-            $existingAvailabilities[] = $availabilityRow;
-        }
-
-        /**
-         * Check for availability conflicts between new availabilities and existing ones.
-         *
-         * @param array $startTimes New availabilities start times
-         * @param array $endTimes New availabilities end times
-         * @param array $daysOfWeek New availabilities days of week
-         * @param array $existingAvailabilities Existing availabilities
-         * @return bool True if conflicts exist, False otherwise
-         */
-        function hasAvailabilityConflicts($startTimes, $endTimes, $daysOfWeek, $existingAvailabilities)
-        {
-            // Convert new availabilities into timestamp ranges
-            $newRanges = [];
-            foreach ($startTimes as $index => $startTime) {
-                $endTime = $endTimes[$index];
-                $dayOfWeek = $daysOfWeek[$index];
-
-                $startTimestamp = strtotime($dayOfWeek . ' ' . $startTime);
-                $endTimestamp = strtotime($dayOfWeek . ' ' . $endTime);
-                $newRanges[] = ['start' => $startTimestamp, 'end' => $endTimestamp];
-            }
-
-            // Check for conflicts with existing availabilities
-            foreach ($existingAvailabilities as $existingAvailability) {
-                $existingStart = strtotime($existingAvailability['day_of_week'] . ' ' . $existingAvailability['start_time']);
-                $existingEnd = strtotime($existingAvailability['day_of_week'] . ' ' . $existingAvailability['end_time']);
-
-                foreach ($newRanges as $newRange) {
-                    $newStart = $newRange['start'];
-                    $newEnd = $newRange['end'];
-
-                    if (($newStart >= $existingStart && $newStart < $existingEnd) || ($newEnd > $existingStart && $newEnd <= $existingEnd)) {
-                        return true; // Conflict found
-                    }
-                }
-            }
-
-            return false; // No conflicts
-        }
-
-        // Check for conflicts
-        if (hasAvailabilityConflicts($startTimes, $endTimes, $daysOfWeek, $existingAvailabilities)) {
-            echo "<script>window.location.href='../office-landing.php';alert('There is an availability conflict with another provider.');</script>";
-            //$_SESSION['error_message'] = "Availability conflicts found.";
-            //header("Location: ../office-landing.php");
-            exit();
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Provider information updated successfully.";
+        } else {
+            $_SESSION['error_message'] = "Failed to update provider information.";
         }
     }
+    
+    // Check if the delete button was clicked
+    if (isset($_POST['delete_provider'])) {
+        // Delete the provider's availabilities
+        $deleteAvailabilitiesSql = "DELETE FROM availabilities WHERE provider_id = ?";
+        $deleteAvailabilitiesStmt = $conn->prepare($deleteAvailabilitiesSql);
+        $deleteAvailabilitiesStmt->bind_param("i", $provider_id);
 
-    // Update the provider information in the database
-    $sql = "UPDATE providers SET first_name = ?, last_name = ?, occupation = ?, zipcode = ?, food_preference = ?, active_inactive = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssi", $first_name, $last_name, $occupation, $zipcode, $food_preference, $active_inactive, $provider_id);
+        // Execute the deletion of availabilities
+        if ($deleteAvailabilitiesStmt->execute()) {
+            // Delete the provider from the database
+            $deleteProviderSql = "DELETE FROM providers WHERE id = ?";
+            $deleteProviderStmt = $conn->prepare($deleteProviderSql);
+            $deleteProviderStmt->bind_param("i", $provider_id);
 
-    if ($stmt->execute()) {
-        $_SESSION['success_message'] = "Provider information updated successfully.";
-    } else {
-        $_SESSION['error_message'] = "Failed to update provider information.";
+            // Execute the deletion of the provider
+            if ($deleteProviderStmt->execute()) {
+                $_SESSION['success_message'] = "Provider deleted successfully.";
+                // Redirect to a suitable page after deletion
+                header("Location: office-landing.php");
+                exit();
+            } else {
+                $_SESSION['error_message'] = "Failed to delete provider.";
+            }
+        } else {
+            $_SESSION['error_message'] = "Failed to delete availabilities.";
+        }
     }
 
     // Update the provider's availabilities in the database
@@ -221,11 +185,11 @@ $row = $result->fetch_assoc();
             }
             ?>
 
-            <!-- Delete provider -->
-            <input type="submit" value="Delete Provider">
-
             <!-- End of edit availabiltiy-->
-            <input type="submit" value="Update Provider">
+            <input type="submit" name="update_provider" value="Update Provider">
+
+            <!-- Delete provider -->
+            <input type="submit" name="delete_provider" value="Delete Provider">
         </form>
     </main>
 </body>

@@ -25,7 +25,7 @@ unset($_SESSION['form_data']);
 
 <head>
     <title>Add Provider</title>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="add-provider.css">
 </head>
 
 <body>

@@ -1,6 +1,4 @@
-<!-- Update the accept.php file -->
 <?php
-// accept.php
 
 // Start the session
 session_start();

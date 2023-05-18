@@ -89,9 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['error_message'] = "Failed to update availabilities.";
                 break;
             }
+            else {
+                $_SESSION['success_message'] = "Provider information updated successfully.";
+            }
         }
-
-        $_SESSION['success_message'] = "Availabilities updated successfully.";
     }
 
     // Redirect back to the providers page
